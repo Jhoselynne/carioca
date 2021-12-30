@@ -16,10 +16,6 @@ $app = require __DIR__.'/../game/carioca.php';
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
-
 $router->get('scoreboard', function () {
     $carioca = new Carioca();
     array_push($carioca->scoreBoard, new User("Alex", 175));
@@ -34,4 +30,9 @@ $router->get('scoreboard', function () {
 $router->get('db', function () {
     $results = app('db')->select("SELECT user_id, username FROM sparkle_users");
     return $results;
+});
+
+// Catch all route
+$router->get('[{path:.*}]', function ($path = null) use ($router) {
+    return $router->app->version() . '<br /><br />path \'' . $path . '\' was not found.';
 });
