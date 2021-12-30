@@ -17,8 +17,6 @@ services:
         source: ./app/home
         target: /home/${USER_NAME}/ws/
     working_dir: /home/${USER_NAME}/ws/api/
-    links:
-      - db
     # entrypoint: bash -c "php -S 0.0.0.0:8000 -t public"
     stdin_open: true
     tty: true
@@ -35,4 +33,4 @@ services:
     ports:
       - 8080:80
     environment:
-      - PMA_ARBITRARY=1
+      - PMA_ARBITRARY=0
