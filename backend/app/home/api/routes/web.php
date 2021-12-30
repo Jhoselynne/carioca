@@ -27,8 +27,13 @@ $router->get('scoreboard', function () {
     return $json;
 });
 
-$router->get('db', function () {
-    $results = app('db')->select("SELECT user_id, username FROM sparkle_users");
+$router->get('user[/{id:[0-9]+}]', function ($id = null) {
+    // $results = 'user called with id = \'' . $id . '\'';
+    if (!empty($id)) {
+        $results = app('db')->select("SELECT user_id, username FROM sparkle_users WHERE user_id = $id");
+    } else {
+        $results = app('db')->select("SELECT user_id, username FROM sparkle_users");
+    }
     return $results;
 });
 
