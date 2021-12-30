@@ -30,3 +30,8 @@ $router->get('scoreboard', function () {
     $json = json_encode($carioca);
     return $json;
 });
+
+$router->get('db', function () {
+    $results = app('db')->select("SELECT user_id, username FROM sparkle_users");
+    return $results;
+});
