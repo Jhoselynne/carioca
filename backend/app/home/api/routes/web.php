@@ -32,15 +32,12 @@ $router->get('scoreboard', function () {
 });
 
 $router->get('user[/{id:[0-9]+}]', function ($id = null) {
-    // $results = 'user called with id = \'' . $id . '\'';
-    // if (!empty($id)) {
-    //     $results = app('db')->select("SELECT user_id, username FROM sparkle_users WHERE user_id = $id");
-    // } else {
-    //     $results = app('db')->select("SELECT user_id, username FROM sparkle_users");
-    // }
-    // $results = app('db')->select('SELECT @@version;');
-    $results = app('db')->select("SELECT 1");
-    // $results = 'I am here';
+    $results = 'user called with id = \'' . $id . '\'';
+    if (!empty($id)) {
+        $results = app('db')->select("SELECT host, user FROM user WHERE user_id = $id");
+    } else {
+        $results = app('db')->select("SELECT host, user FROM user");
+    }
     return $results;
 });
 
