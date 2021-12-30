@@ -1,4 +1,4 @@
-<?
+<?php
     class User {
         public $userName = "";
         public $points = 0;

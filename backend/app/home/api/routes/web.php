@@ -2,8 +2,8 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-$app = require __DIR__.'/../game/user.php';
-$app = require __DIR__.'/../game/carioca.php';
+require __DIR__.'/../game/user.php';
+require __DIR__.'/../game/carioca.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +15,10 @@ $app = require __DIR__.'/../game/carioca.php';
 | and give it the Closure to call when that URI is requested.
 |
 */
+
+$router->get('info', function () {
+    return phpinfo();
+});
 
 $router->get('scoreboard', function () {
     $carioca = new Carioca();
@@ -29,11 +33,14 @@ $router->get('scoreboard', function () {
 
 $router->get('user[/{id:[0-9]+}]', function ($id = null) {
     // $results = 'user called with id = \'' . $id . '\'';
-    if (!empty($id)) {
-        $results = app('db')->select("SELECT user_id, username FROM sparkle_users WHERE user_id = $id");
-    } else {
-        $results = app('db')->select("SELECT user_id, username FROM sparkle_users");
-    }
+    // if (!empty($id)) {
+    //     $results = app('db')->select("SELECT user_id, username FROM sparkle_users WHERE user_id = $id");
+    // } else {
+    //     $results = app('db')->select("SELECT user_id, username FROM sparkle_users");
+    // }
+    // $results = app('db')->select('SELECT @@version;');
+    $results = app('db')->select("SELECT 1");
+    // $results = 'I am here';
     return $results;
 });
 
