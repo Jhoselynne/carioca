@@ -20,6 +20,10 @@ $router->get('info', function () {
     return phpinfo();
 });
 
+$router->post('login', function () {
+    return "Login functionality coming soon here!";
+});
+
 $router->get('scoreboard', function () {
     $carioca = new Carioca();
     array_push($carioca->scoreBoard, new User("Alex", 175));
@@ -34,9 +38,9 @@ $router->get('scoreboard', function () {
 $router->get('user[/{id:[0-9]+}]', function ($id = null) {
     $results = 'user called with id = \'' . $id . '\'';
     if (!empty($id)) {
-        $results = app('db')->select("SELECT host, user FROM user WHERE user_id = $id");
+        $results = app('db')->select("SELECT id, name FROM user WHERE id = $id");
     } else {
-        $results = app('db')->select("SELECT host, user FROM user");
+        $results = app('db')->select("SELECT id, name FROM user");
     }
     return $results;
 });

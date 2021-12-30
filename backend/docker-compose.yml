@@ -34,3 +34,13 @@ services:
       - 8080:80
     environment:
       - PMA_ARBITRARY=0
+
+  flyway:
+    image: flyway/flyway
+    volumes:
+      - type: bind
+        source: ./app/home/flyway/sql/
+        target: /flyway/sql/
+    depends_on:
+      - db
+    command: -url=jdbc:mysql://db -schemas=carioca -user=root -password=example -connectRetries=60 migrate
