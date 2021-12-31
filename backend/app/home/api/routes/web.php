@@ -37,6 +37,7 @@ $router->get('user[/{id:[0-9]+}]', function ($id = null) {
     $table = 'carioca_user';
     if (!empty($id)) {
         $results = app('db')->select("SELECT id, name FROM $table WHERE id = $id");
+        $results = isset($results[0]) ? $results[0] : null;
     } else {
         $results = app('db')->select("SELECT id, name FROM $table");
     }
@@ -51,6 +52,7 @@ $router->get('round[/{id:[0-9]+}]', function ($id = null) {
     $table = 'carioca_round';
     if (!empty($id)) {
         $results = app('db')->select("SELECT id, name FROM $table WHERE id = $id");
+        $results = isset($results[0]) ? $results[0] : null;
     } else {
         $results = app('db')->select("SELECT id, name FROM $table");
     }
@@ -64,6 +66,7 @@ $router->get('round[/{id:[0-9]+}]', function ($id = null) {
 $router->get('game/{id:[0-9]+}', function ($id = null) {
     $table = 'carioca_game';
     $results = app('db')->select("SELECT id, round_id FROM $table WHERE id = $id");
+    $results = isset($results[0]) ? $results[0] : null;
     return response()
         ->json($results)
         ->header('Access-Control-Allow-Origin', '*')
