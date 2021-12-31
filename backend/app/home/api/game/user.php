@@ -1,11 +1,12 @@
 <?php
     class User {
+        public $userId = 0;
         public $userName = "";
-        public $points = 0;
+        public $points = array();
 
-        public function __construct($userName, $points) {
+        public function __construct($userId, $userName) {
+            $this->userId = $userId;
             $this->userName = $userName;
-            $this->points = $points;
         }
     }
 ?>
