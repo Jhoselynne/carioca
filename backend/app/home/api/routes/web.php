@@ -5,6 +5,7 @@
 require __DIR__.'/../game/user.php';
 require __DIR__.'/../game/point.php';
 require __DIR__.'/../game/carioca.php';
+require __DIR__.'/../game/endpoint.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -106,56 +107,20 @@ $router->get('score/game/{game_id:[0-9]+}', function ($game_id) {
 });
 
 $router->get('endpoint', function () {
-    $html = '
-        <!doctype html>
-
-        <html lang="en">
-            <head>
-                <meta charset="utf-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1">
-                <title>Carioca endpoints</title>
-            </head>
-            <body>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>GET</td>
-                            <td>https://illanes.com/carioca/api/public/version</td>
-                        </tr>
-                        <tr>
-                            <td>GET</td>
-                            <td>https://illanes.com/carioca/api/public/user</td>
-                        </tr>
-                        <tr>
-                            <td>GET</td>
-                            <td>https://illanes.com/carioca/api/public/user/{id}</td>
-                        </tr>
-                        <tr>
-                            <td>GET</td>
-                            <td>https://illanes.com/carioca/api/public/round</td>
-                        </tr>
-                        <tr>
-                            <td>GET</td>
-                            <td>https://illanes.com/carioca/api/public/round/{id}</td>
-                        </tr>
-                        <tr>
-                            <td>GET</td>
-                            <td>https://illanes.com/carioca/api/public/game/{id}</td>
-                        </tr>
-                        <tr>
-                            <td>GET</td>
-                            <td>https://illanes.com/carioca/api/public/score/game/{id}</td>
-                        </tr>
-                        <tr>
-                            <td>POST</td>
-                            <td>https://illanes.com/carioca/api/public/login</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </body>
-        </html>
-    ';
-    return $html;
+    $endpoints = array(
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/version'),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/user'),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/user/{id}'),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/round'),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/round/{id}'),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/game/{id}'),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/score/game/{id}'),
+        new Endpoint('POST', 'https://illanes.com/carioca/api/public/login'),
+    );
+    return response(json_encode($endpoints, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+        ->header('Access-Control-Allow-Origin', '*')
+        ->header('Access-Control-Allow-Methods', 'GET')
+        ->header('Access-Control-Allow-Headers', 'X-Requested-With');
 });
 
 // Catch all route
