@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 require __DIR__.'/../game/user.php';
@@ -22,19 +24,27 @@ require __DIR__.'/../game/endpoint.php';
 //     return phpinfo();
 // });
 
-$router->get('version', function () use ($router) {
-    return $router->app->version();
-});
+function authenticated(Request $request) {
+    $user = Auth::user();
+    $user = $request->user();
+}
 
-$router->post('login', function () {
+$router->get('version', ['middleware' => 'auth', function (Request $request) use ($router) {
+    authenticated($request);
+    return $router->app->version();
+}]);
+
+$router->post('login', ['middleware' => 'auth', function (Request $request) {
+    authenticated($request);
     $content = "Login functionality coming soon here!";
     return response($content)
         ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'POST')
         ->header('Access-Control-Allow-Headers', 'X-Requested-With');
-});
+}]);
 
-$router->get('user[/{id:[0-9]+}]', function ($id = null) {
+$router->get('user[/{id:[0-9]+}]', ['middleware' => 'auth', function (Request $request, $id = null) {
+    authenticated($request);
     $table = 'carioca_user';
     if (!empty($id)) {
         $results = app('db')->select("SELECT id, name FROM $table WHERE id = $id");
@@ -47,9 +57,10 @@ $router->get('user[/{id:[0-9]+}]', function ($id = null) {
         ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET')
         ->header('Access-Control-Allow-Headers', 'X-Requested-With');
-});
+}]);
 
-$router->get('round[/{id:[0-9]+}]', function ($id = null) {
+$router->get('round[/{id:[0-9]+}]', ['middleware' => 'auth', function (Request $request, $id = null) {
+    authenticated($request);
     $table = 'carioca_round';
     if (!empty($id)) {
         $results = app('db')->select("SELECT id, name FROM $table WHERE id = $id");
@@ -62,9 +73,10 @@ $router->get('round[/{id:[0-9]+}]', function ($id = null) {
         ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET')
         ->header('Access-Control-Allow-Headers', 'X-Requested-With');
-});
+}]);
 
-$router->get('game/{id:[0-9]+}', function ($id = null) {
+$router->get('game/{id:[0-9]+}', ['middleware' => 'auth', function (Request $request, $id = null) {
+    authenticated($request);
     $table = 'carioca_game';
     $results = app('db')->select("SELECT id, round_id FROM $table WHERE id = $id");
     $results = isset($results[0]) ? $results[0] : null;
@@ -73,9 +85,10 @@ $router->get('game/{id:[0-9]+}', function ($id = null) {
         ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET')
         ->header('Access-Control-Allow-Headers', 'X-Requested-With');
-});
+}]);
 
-$router->get('score/game/{game_id:[0-9]+}', function ($game_id) {
+$router->get('score/game/{game_id:[0-9]+}', ['middleware' => 'auth', function (Request $request, $game_id) {
+    authenticated($request);
 
     $game_result = app('db')->select("SELECT id, round_id FROM carioca_game WHERE id = $game_id");
     $game_exist = !empty($game_result) ? true : false;
@@ -104,9 +117,10 @@ $router->get('score/game/{game_id:[0-9]+}', function ($game_id) {
         ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET')
         ->header('Access-Control-Allow-Headers', 'X-Requested-With');
-});
+}]);
 
-$router->get('endpoint', function () {
+$router->get('endpoint', ['middleware' => 'auth', function (Request $request) {
+    authenticated($request);
     $endpoints = array(
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/version'),
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/user'),
@@ -121,9 +135,10 @@ $router->get('endpoint', function () {
         ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET')
         ->header('Access-Control-Allow-Headers', 'X-Requested-With');
-});
+}]);
 
 // Catch all route
-$router->get('[{path:.*}]', function ($path = null) use ($router) {
+$router->get('[{path:.*}]', ['middleware' => 'auth', function (Request $request, $path = null) use ($router) {
+    authenticated($request);
     return 'Path \'' . $path . '\' was not found.';
-});
+}]);
