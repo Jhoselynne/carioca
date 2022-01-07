@@ -7,8 +7,8 @@ function EditScore({ navigation }) {
 //       <View style={styles.container}>
 //         <View style={styles.spacebetween}>
 //           <Text> This is the Score screen </Text>
-//         </View>  
-//         <Button 
+//         </View>
+//         <Button
 //           title="Go to Round screen"
 //           onPress={() => navigation.navigate('Round')}
 //         />
@@ -19,7 +19,12 @@ function EditScore({ navigation }) {
   const [game, setGame] = useState([]);
 
   useEffect(() => {
-  fetch('https://illanes.com/carioca/api/public/round')
+    fetch('https://illanes.com/carioca/api/public/round', {
+      method: 'GET',
+      headers: new Headers({
+        'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16'
+      })
+  })
     .then((response) => response.json())
     .then((json) => { setGame(json)
       console.log(json);
@@ -37,15 +42,15 @@ function EditScore({ navigation }) {
                 renderItem={({item}) => (
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
                     <Text>{item.name}</Text>
-                    <View style={{marginLeft: 5}}> 
+                    <View style={{marginLeft: 5}}>
                         <input style={{width: 25}}
                         placeholder="p."/>
                     </View>
                 </View>
                 )}
             />
-        </View>  
-        <Button 
+        </View>
+        <Button
             title="Save"
             onPress={() => navigation.navigate('Round')}
         />
@@ -60,7 +65,7 @@ function EditScore({ navigation }) {
       alignItems: 'center',
       justifyContent: 'center',
     },
-    
+
     spacebetween: {
       paddingVertical: 20,
     },
