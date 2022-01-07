@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - USER_NAME=${USER_NAME}
+        - USER_ID=${USER_ID}
+        - GROUP_ID=${GROUP_ID}
+    ports:
+      - "19000-19010:19000-19010"
+    environment:
+      - REACT_NATIVE_PACKAGER_HOSTNAME=${REACT_NATIVE_PACKAGER_HOSTNAME}
+    volumes:
+      - type: bind
+        source: ./app
+        target: /home/${USER_NAME}/ws/app/
+    working_dir: /home/${USER_NAME}/ws/app/
+    # entrypoint: bash -c "expo start --tunnel"
+    stdin_open: true
+    tty: true
