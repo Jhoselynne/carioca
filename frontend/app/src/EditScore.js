@@ -24,7 +24,7 @@ function EditScore({ navigation }) {
       headers: new Headers({
         'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16'
       })
-  })
+    })
     .then((response) => response.json())
     .then((json) => { setGame(json)
       console.log(json);
