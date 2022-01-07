@@ -37,10 +37,7 @@ $router->get('version', ['middleware' => 'auth', function (Request $request) use
 $router->post('login', ['middleware' => 'auth', function (Request $request) {
     authenticated($request);
     $content = "Login functionality coming soon here!";
-    return response($content)
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'POST')
-        ->header('Access-Control-Allow-Headers', 'X-Requested-With');
+    return response($content);
 }]);
 
 $router->get('user[/{id:[0-9]+}]', ['middleware' => 'auth', function (Request $request, $id = null) {
@@ -52,11 +49,7 @@ $router->get('user[/{id:[0-9]+}]', ['middleware' => 'auth', function (Request $r
     } else {
         $results = app('db')->select("SELECT id, name FROM $table");
     }
-    return response()
-        ->json($results)
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'GET')
-        ->header('Access-Control-Allow-Headers', 'X-Requested-With');
+    return response()->json($results);
 }]);
 
 $router->get('round[/{id:[0-9]+}]', ['middleware' => 'auth', function (Request $request, $id = null) {
@@ -68,11 +61,7 @@ $router->get('round[/{id:[0-9]+}]', ['middleware' => 'auth', function (Request $
     } else {
         $results = app('db')->select("SELECT id, name FROM $table");
     }
-    return response()
-        ->json($results)
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'GET')
-        ->header('Access-Control-Allow-Headers', 'X-Requested-With');
+    return response()->json($results);
 }]);
 
 $router->get('game/{id:[0-9]+}', ['middleware' => 'auth', function (Request $request, $id = null) {
@@ -80,11 +69,7 @@ $router->get('game/{id:[0-9]+}', ['middleware' => 'auth', function (Request $req
     $table = 'carioca_game';
     $results = app('db')->select("SELECT id, round_id FROM $table WHERE id = $id");
     $results = isset($results[0]) ? $results[0] : null;
-    return response()
-        ->json($results)
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'GET')
-        ->header('Access-Control-Allow-Headers', 'X-Requested-With');
+    return response()->json($results);
 }]);
 
 $router->get('score/game/{game_id:[0-9]+}', ['middleware' => 'auth', function (Request $request, $game_id) {
@@ -131,10 +116,7 @@ $router->get('endpoint', ['middleware' => 'auth', function (Request $request) {
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/score/game/{id}'),
         new Endpoint('POST', 'https://illanes.com/carioca/api/public/login'),
     );
-    return response(json_encode($endpoints, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
-        ->header('Access-Control-Allow-Origin', '*')
-        ->header('Access-Control-Allow-Methods', 'GET')
-        ->header('Access-Control-Allow-Headers', 'X-Requested-With');
+    return response(json_encode($endpoints, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 }]);
 
 // Catch all route
