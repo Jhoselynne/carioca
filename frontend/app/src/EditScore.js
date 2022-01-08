@@ -30,10 +30,9 @@ function EditScore({ navigation }) {
                 renderItem={({item}) => (
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
                     <Text>{item.name}</Text>
-                    <View style={{marginLeft: 5}}>
-                        <TextInput style= {styles.boxBorder}
-                        placeholder="p."/>
-                        <Text>p.</Text>
+                    <View style={{flexDirection: 'row', marginLeft: 5}}>
+                        <TextInput style= {styles.boxBorder} placeholder="0"/>
+                        <Text> p</Text>
                     </View>
                 </View>
                 )}
