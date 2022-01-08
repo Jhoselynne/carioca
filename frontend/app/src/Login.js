@@ -6,15 +6,15 @@ function Login({ navigation }) {
     <View style={styles.container}>
       <View style={styles.spacebetween}>
         <Text> Game ID </Text>
-        <TextInput></TextInput>
+        <TextInput style= {styles.boxBorder}></TextInput>
       </View>
       <View style={styles.spacebetween}>
         <Text> User Name </Text>
-        <TextInput></TextInput>
+        <TextInput style= {styles.boxBorder}></TextInput>
       </View>
       <View style={styles.spacebetween}>
         <Text> Password </Text>
-        <TextInput></TextInput>
+        <TextInput style= {styles.boxBorder}></TextInput>
       </View>
       <Button title="Enter" onPress={() => navigation.navigate("Round")} />
     </View>
@@ -46,6 +46,10 @@ const styles = StyleSheet.create({
   spacebetween: {
     paddingVertical: 20,
   },
+  boxBorder: {
+    borderWidth: 1,
+    borderRadius: 2,
+  }
 });
 
 export default Login;
