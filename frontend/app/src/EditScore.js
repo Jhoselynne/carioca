@@ -34,7 +34,7 @@ function EditScore({ navigation }) {
 
   return (
     <View style={styles.container}>
-            <h1> Edit Scores </h1>
+            <Text> Edit Scores </Text>
         <View style={styles.spacebetween}>
             <FlatList
                 data={game}
@@ -43,7 +43,7 @@ function EditScore({ navigation }) {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
                     <Text>{item.name}</Text>
                     <View style={{marginLeft: 5}}>
-                        <input style={{width: 25}}
+                        <TextInput style={{width: 25}}
                         placeholder="p."/>
                     </View>
                 </View>
