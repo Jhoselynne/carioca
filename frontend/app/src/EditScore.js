@@ -1,20 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {StyleSheet, View, Text, Button} from "react-native";
-import { FlatList } from 'react-native-web';
+import { FlatList, TextInput } from 'react-native-web';
 
 function EditScore({ navigation }) {
-//     return (
-//       <View style={styles.container}>
-//         <View style={styles.spacebetween}>
-//           <Text> This is the Score screen </Text>
-//         </View>
-//         <Button
-//           title="Go to Round screen"
-//           onPress={() => navigation.navigate('Round')}
-//         />
-//       </View>
-//     )
-//   }
 
   const [game, setGame] = useState([]);
 
@@ -43,8 +31,9 @@ function EditScore({ navigation }) {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
                     <Text>{item.name}</Text>
                     <View style={{marginLeft: 5}}>
-                        <TextInput style={{width: 25}}
+                        <TextInput style= {styles.boxBorder}
                         placeholder="p."/>
+                        <Text>p.</Text>
                     </View>
                 </View>
                 )}
@@ -72,7 +61,12 @@ function EditScore({ navigation }) {
     headerSize: {
         fontSize: 20,
         fontWeight: 'bold',
-    }
+    },
+    boxBorder: {
+      borderWidth: 1,
+      borderRadius: 2,
+      width: 25
+    },
   });
 
 export default EditScore;
