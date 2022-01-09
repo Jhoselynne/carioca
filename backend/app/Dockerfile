@@ -4,7 +4,7 @@ RUN apt update && apt upgrade -y
 RUN apt install sudo curl zip gnupg2 lsb-release ca-certificates apt-transport-https software-properties-common -y
 RUN add-apt-repository ppa:ondrej/php -y
 RUN apt update && apt upgrade -y
-RUN apt install php8.1 php8.1-mysql -y
+RUN apt install php8.1 php8.1-mysql php8.1-curl php8.1-xml php8.1-mbstring -y
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
