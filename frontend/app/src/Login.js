@@ -1,39 +1,55 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Button, TextInput } from "react-native";
 
 function Login({ navigation }) {
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState();
+
+  useEffect(() => {
+    if (token) {
+      // TODO: Save token in context 
+      navigation.navigate('GameID');
+    }
+  }, [token])
+
   return (
     <View style={styles.container}>
       <View style={styles.spacebetween}>
-        <Text> Game ID </Text>
-        <TextInput style= {styles.boxBorder}></TextInput>
-      </View>
-      <View style={styles.spacebetween}>
         <Text> User Name </Text>
-        <TextInput style= {styles.boxBorder}></TextInput>
+        <TextInput style={styles.boxBorder} onChangeText={setUserName}></TextInput>
       </View>
       <View style={styles.spacebetween}>
         <Text> Password </Text>
-        <TextInput style= {styles.boxBorder}></TextInput>
+        <TextInput style= {styles.boxBorder} onChangeText={setPassword}></TextInput>
       </View>
-      <Button title="Enter" onPress={() => navigation.navigate("Round")} />
+      <Button 
+        title="Enter" onPress={() => {
+          fetch('https://illanes.com/carioca/api/public/login', {
+            method: 'POST',
+            headers: new Headers({
+              'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
+              'content-type': 'application/json'
+            }),
+            body: JSON.stringify({'username': userName, 'userpassword': password})
+          })
+          .then((response) => {
+            if (response.status !== 200) {
+              throw new Error(response.status);
+            }
+            return response.json()
+          })
+          .then((response) => {
+            setToken(response);
+          })
+          .catch((e) => {
+            alert("Incorrect username or password!");
+          });
+        }}
+      />
     </View>
   );
 }
-
-// function Round({ navigation }) {
-//   return (
-//     <View style={styles.container}>
-//       <View style={styles.spacebetween}>
-//         <Text> This is the Round game screen </Text>
-//       </View>
-//       <Button
-//         title="Go to Score screen"
-//         onPress={() => navigation.navigate('Edit Score')}
-//       />
-//     </View>
-//   )
-// }
 
 const styles = StyleSheet.create({
   container: {
