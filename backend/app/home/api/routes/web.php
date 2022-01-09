@@ -62,8 +62,10 @@ $router->post('login', ['middleware' => 'auth', function (Request $request) {
             ];
 
             $token = Token::customPayload($payload, $secret);
+            // $content->token = $token;
 
-            return $token;
+            return response()
+                ->json($token);
         } else {
             return response()
                 ->json(['error' => 'Incorrect username or password'], 401);
