@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 
+use ReallySimpleJWT\Token;
+
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 require __DIR__.'/../game/user.php';
@@ -36,8 +38,40 @@ $router->get('version', ['middleware' => 'auth', function (Request $request) use
 
 $router->post('login', ['middleware' => 'auth', function (Request $request) {
     authenticated($request);
-    $content = "Login functionality coming soon here!";
-    return response($content);
+
+    $user_name = $request->username;
+    $user_password = $request->userpassword;
+
+    $user = app('db')->select("SELECT u.id, u.name, u.password FROM carioca_user u WHERE u.name = '$user_name'");
+    if (!empty($user)) {
+        $user_id = $user[0]->id;
+        $hash_default_salt = $user[0]->password;
+
+        if(password_verify($user_password, $hash_default_salt)) {
+            $secret = 'TvJH3&B&tD5s2Y';
+            $issuer = 'illanes.com';
+            $issued_at = time();
+            $expiration = $issued_at + 3600;
+
+            $payload = [
+                'iat' => $issued_at,
+                'exp' => $expiration,
+                'iss' => $issuer,
+                'userid' => $user_id,
+                'username' => $user_name
+            ];
+
+            $token = Token::customPayload($payload, $secret);
+
+            return $token;
+        } else {
+            return response()
+                ->json(['error' => 'Incorrect username or password'], 401);
+        }
+    } else {
+        return response()
+            ->json(['error' => 'Incorrect username or password'], 401);
+    }
 }]);
 
 $router->get('user[/{id:[0-9]+}]', ['middleware' => 'auth', function (Request $request, $id = null) {
