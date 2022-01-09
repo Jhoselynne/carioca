@@ -36,6 +36,10 @@ export default function App() {
         />
 
         <Stack.Screen
+          name="GameID"
+          getComponent={() => require("./src/ChooseGameID").default}
+        />
+        <Stack.Screen
           name="Round"
           getComponent={() => require("./src/Round").default}
         />
