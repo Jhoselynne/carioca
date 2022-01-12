@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Text, StyleSheet, TextInput } from "react-native";
 import { View } from "react-native-web";
+import { TokenContext } from "./TokenContext";
+
+const [token, setToken] = useContext(TokenContext);
 
 function ChooseGameID ({ navigation }) {
     return(
         <View style={styles.container}>
             <Text> Game ID </Text>
+            <Text> {token} </Text>
             <View style={styles.spacebetween}>
                 <TextInput style= {styles.boxBorder}></TextInput>
             </View>
