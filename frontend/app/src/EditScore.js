@@ -5,6 +5,7 @@ import { FlatList, TextInput } from 'react-native-web';
 function EditScore({ navigation }) {
 
   const [game, setGame] = useState([]);
+  const [roundPoints, setRoundPoints] = useState();
 
   useEffect(() => {
     fetch('https://illanes.com/carioca/api/public/round', {
@@ -31,7 +32,11 @@ function EditScore({ navigation }) {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
                     <Text>{item.name}</Text>
                     <View style={{flexDirection: 'row', marginLeft: 5}}>
-                        <TextInput style= {styles.boxBorder} placeholder="0"/>
+                        <TextInput style= {styles.boxBorder} 
+                          placeholder="0" 
+                          value={roundPoints} 
+                          onChangeText={(value) => setRoundPoints(value)}
+                        />
                         <Text> p</Text>
                     </View>
                 </View>
