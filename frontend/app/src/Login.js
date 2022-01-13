@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Button, TextInput } from "react-native";
-import { TokenContext } from "./TokenContext";
 
 function Login({ navigation }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useContext(TokenContext);
+  const [token, setToken] = useState();
 
   useEffect(() => {
     if (token) {
-      // TODO: Save token in context 
+      // TODO: Save token in context
       navigation.navigate('GameID');
     }
   }, [token])
@@ -24,7 +23,7 @@ function Login({ navigation }) {
         <Text> Password </Text>
         <TextInput style= {styles.boxBorder} onChangeText={setPassword}></TextInput>
       </View>
-      <Button 
+      <Button
         title="Enter" onPress={() => {
           fetch('https://illanes.com/carioca/api/public/login', {
             method: 'POST',

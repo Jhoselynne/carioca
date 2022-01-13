@@ -32,9 +32,9 @@ function EditScore({ navigation }) {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
                     <Text>{item.name}</Text>
                     <View style={{flexDirection: 'row', marginLeft: 5}}>
-                        <TextInput style= {styles.boxBorder} 
-                          placeholder="0" 
-                          value={roundPoints} 
+                        <TextInput style= {styles.boxBorder}
+                          placeholder="0"
+                          value={roundPoints}
                           onChangeText={(value) => setRoundPoints(value)}
                         />
                         <Text> p</Text>
