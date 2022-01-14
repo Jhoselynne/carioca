@@ -7,26 +7,8 @@ function Login({ navigation }) {
   const [password, setPassword] = useState('');
   const {token, setToken} = useContext(ContextToken);
 
-  useEffect(() => {
-    if (token) {
-      // TODO: Save token in context
-      navigation.navigate('GameID');
-    }
-  }, [token])
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.spacebetween}>
-        <Text> User Name </Text>
-        <TextInput style={styles.boxBorder} onChangeText={setUserName}></TextInput>
-      </View>
-      <View style={styles.spacebetween}>
-        <Text> Password </Text>
-        <TextInput style= {styles.boxBorder} onChangeText={setPassword}></TextInput>
-      </View>
-      <Button
-        title="Enter" onPress={() => {
-          fetch('https://illanes.com/carioca/api/public/login', {
+  const getToken = () => {
+    fetch('https://illanes.com/carioca/api/public/login', {
             method: 'POST',
             headers: new Headers({
               'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
@@ -46,7 +28,27 @@ function Login({ navigation }) {
           .catch((e) => {
             alert("Incorrect username or password!");
           });
-        }}
+  }
+
+  useEffect(() => {
+    if (token) {
+      // TODO: Save token in context
+      navigation.navigate('GameID');
+    }
+  }, [token])
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.spacebetween}>
+        <Text> User Name </Text>
+        <TextInput style={styles.boxBorder} onChangeText={setUserName}></TextInput>
+      </View>
+      <View style={styles.spacebetween}>
+        <Text> Password </Text>
+        <TextInput style= {styles.boxBorder} onChangeText={setPassword}></TextInput>
+      </View>
+      <Button
+        title="Enter" onPress={getToken}
       />
     </View>
   );
