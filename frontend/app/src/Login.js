@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, Text, Button, TextInput } from "react-native";
+import { ContextToken } from "../App";
 
 function Login({ navigation }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useState();
+  const {token, setToken} = useContext(ContextToken);
 
   useEffect(() => {
     if (token) {
