@@ -6,7 +6,7 @@ import { ContextToken } from "../App";
 
 function ChooseGameID ({ navigation }) {
     const {token} = useContext(ContextToken);
-    
+
     return(
         <View style={styles.container}>
             <Text> Game ID </Text>
