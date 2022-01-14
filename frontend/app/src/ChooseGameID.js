@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import React, { useContext } from "react";
 import { Button, Text, StyleSheet, TextInput } from "react-native";
 import { View } from "react-native-web";
@@ -9,7 +10,7 @@ function ChooseGameID ({ navigation }) {
     return(
         <View style={styles.container}>
             <Text> Game ID </Text>
-            <Text> {token} </Text>
+            <Text> {jwtDecode(token).username} </Text>
             <View style={styles.spacebetween}>
                 <TextInput style= {styles.boxBorder}></TextInput>
             </View>
