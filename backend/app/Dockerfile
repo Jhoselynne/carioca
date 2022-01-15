@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-RUN apt update && apt upgrade -y
+RUN apt update && apt upgrade --fix-missing -y
 RUN apt install sudo curl zip gnupg2 lsb-release ca-certificates apt-transport-https software-properties-common -y
 RUN add-apt-repository ppa:ondrej/php -y
 RUN apt update && apt upgrade -y
