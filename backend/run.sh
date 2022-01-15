@@ -5,10 +5,7 @@ export USER_ID=$(id -u)
 export GROUP_ID=$(id -g)
 export REACT_NATIVE_PACKAGER_HOSTNAME=$(hostname -I)
 
-docker-compose down
-docker system prune -f
 
-docker-compose build app db phpmyadmin flyway
 docker-compose up -d app db phpmyadmin
 docker-compose up flyway
 
