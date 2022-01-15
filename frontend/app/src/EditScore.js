@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {StyleSheet, View, Text, Button} from "react-native";
 import { FlatList, TextInput } from 'react-native-web';
+import { ContextToken } from "../App";
 
 function EditScore({ navigation }) {
+
+  const {token} = useContext(ContextToken);
 
   const [game, setGame] = useState([]);
   const [roundPoints, setRoundPoints] = useState();
@@ -11,7 +14,8 @@ function EditScore({ navigation }) {
     fetch('https://illanes.com/carioca/api/public/round', {
       method: 'GET',
       headers: new Headers({
-        'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16'
+        'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
+        'Authorization': 'Bearer ' + token
       })
     })
     .then((response) => response.json())
