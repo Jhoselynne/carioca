@@ -57,15 +57,17 @@ $router->post('login', ['middleware' => 'auth', function (Request $request) {
                 'iat' => $issued_at,
                 'exp' => $expiration,
                 'iss' => $issuer,
-                'userid' => $user_id,
-                'username' => $user_name
+                'user_id' => $user_id,
+                'user_name' => $user_name
             ];
 
             $token = Token::customPayload($payload, $secret);
-            // $content->token = $token;
+            $content = new StdClass();
+            $content->id_token = $token;
+            $content->token_type = "Bearer";
 
             return response()
-                ->json($token);
+                ->json($content);
         } else {
             return response()
                 ->json(['error' => 'Incorrect username or password'], 401);
