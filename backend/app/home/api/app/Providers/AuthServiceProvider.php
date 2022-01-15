@@ -7,6 +7,10 @@ use Illuminate\Auth\GenericUser;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
+use ReallySimpleJWT\Jwt;
+use ReallySimpleJWT\Parse;
+use ReallySimpleJWT\Decode;
+
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -39,7 +43,39 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app['auth']->viaRequest('api', function ($request) {
             $secret = '0c9bac13f5734c6ea1264643d6f60a16';
+
+            if ($request->is('version')) {
+                return new GenericUser(['id' => 1, 'name' => 'AuthenticatedUser']);
+            }
+
+            $valid_api_key = false;
             if($request->header('x-api-key') === $secret) {
+                $valid_api_key = true;
+            } else {
+                return null;
+            }
+
+            if ($request->is('login')) {
+                return new GenericUser(['id' => 1, 'name' => 'AuthenticatedUser']);
+            }
+
+            $valid_id_token = false;
+            if($request->header('Authorization') && str_starts_with($request->header('Authorization'), 'Bearer ')) {
+                $token = preg_replace('/^Bearer /', '', $request->header('Authorization'));
+                $secret = 'TvJH3&B&tD5s2Y';
+                $jwt = new Jwt($token, $secret);
+                $parse = new Parse($jwt, new Decode());
+                $payload = $parse->parse()->getPayload();
+
+                if ($payload) {
+                    // TODO: Validate claims in payload and against user in database
+                    // var_dump($payload);
+                    // var_dump($payload['user_name']);
+                    $valid_id_token = true;
+                }
+            }
+
+            if ($valid_api_key && $valid_id_token) {
                 return new GenericUser(['id' => 1, 'name' => 'AuthenticatedUser']);
             } else {
                 return null;
