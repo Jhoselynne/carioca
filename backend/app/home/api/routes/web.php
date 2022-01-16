@@ -144,6 +144,7 @@ $router->get('score/game/{game_id:[0-9]+}', ['middleware' => 'auth', function (R
 
 $router->get('endpoint', ['middleware' => 'auth', function (Request $request) {
     authenticated($request);
+    $content = new StdClass();
     $endpoints = array(
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/version'),
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/user'),
@@ -154,7 +155,9 @@ $router->get('endpoint', ['middleware' => 'auth', function (Request $request) {
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/score/game/{id}'),
         new Endpoint('POST', 'https://illanes.com/carioca/api/public/login'),
     );
-    return response(json_encode($endpoints, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+    $content->endpoints = $endpoints;
+    return response()
+        ->json($content);
 }]);
 
 // Catch all route
