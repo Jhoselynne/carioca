@@ -2,7 +2,10 @@
 
 use Illuminate\Http\Request;
 
-use ReallySimpleJWT\Token;
+use ReallySimpleJWT\Build;
+use ReallySimpleJWT\Secret;
+use ReallySimpleJWT\Helper\Validator;
+use ReallySimpleJWT\Encoders\EncodeHS256;
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
@@ -49,21 +52,29 @@ $router->post('login', ['middleware' => 'auth', function (Request $request) {
 
         if(password_verify($user_password, $hash_default_salt)) {
             $secret = 'TvJH3&B&tD5s2Y';
+            $audience = 'https://illanes.com';
             $issuer = 'illanes.com';
             $issued_at = time();
-            $expiration = $issued_at + 3600;
+            $not_before = $issued_at - 60;
+            $expiration = $issued_at + 86400; // 60 sec * 60 min * 24 hr
+            $jwt_id = dechex( microtime(true) * 1000 ) . bin2hex( random_bytes(8) );
 
-            $payload = [
-                'iat' => $issued_at,
-                'exp' => $expiration,
-                'iss' => $issuer,
-                'user_id' => $user_id,
-                'user_name' => $user_name
-            ];
-
-            $token = Token::customPayload($payload, $secret);
+            $build = new Build('JWT', new Validator(), new Secret(), new EncodeHS256());
+            $token = $build->setContentType('JWT')
+                // ->setHeaderClaim('foo', 'bar')
+                ->setSecret($secret)
+                ->setIssuer($issuer)
+                ->setSubject('login')
+                ->setAudience($audience)
+                ->setExpiration($expiration)
+                ->setNotBefore($not_before)
+                ->setIssuedAt($issued_at)
+                ->setJwtId($jwt_id)
+                ->setPayloadClaim('user_id', $user_id)
+                ->setPayloadClaim('user_name', $user_name)
+                ->build();
             $content = new StdClass();
-            $content->id_token = $token;
+            $content->id_token = $token->getToken();
             $content->token_type = "Bearer";
 
             return response()

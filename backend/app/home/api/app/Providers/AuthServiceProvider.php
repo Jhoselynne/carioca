@@ -9,7 +9,14 @@ use Illuminate\Support\ServiceProvider;
 
 use ReallySimpleJWT\Jwt;
 use ReallySimpleJWT\Parse;
+use ReallySimpleJWT\Validate;
 use ReallySimpleJWT\Decode;
+use ReallySimpleJWT\Encoders\EncodeHS256;
+use ReallySimpleJWT\Helper\Validator;
+use ReallySimpleJWT\Exception\BuildException;
+use ReallySimpleJWT\Exception\ParseException;
+use ReallySimpleJWT\Exception\TokensException;
+use ReallySimpleJWT\Exception\ValidateException;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -62,15 +69,49 @@ class AuthServiceProvider extends ServiceProvider
             $valid_id_token = false;
             if($request->header('Authorization') && str_starts_with($request->header('Authorization'), 'Bearer ')) {
                 $token = preg_replace('/^Bearer /', '', $request->header('Authorization'));
-                $secret = 'TvJH3&B&tD5s2Y';
-                $jwt = new Jwt($token, $secret);
+                $token_secret = 'TvJH3&B&tD5s2Y';
+                $jwt = new Jwt($token, $token_secret);
                 $parse = new Parse($jwt, new Decode());
+                $validate = new Validate(
+                    $parse,
+                    new EncodeHS256(),
+                    new Validator()
+                );
+
+                try {
+                    // confirms the structure of the token is correct.
+                    $validate->structure();
+
+                    // confirms the token signature is valid.
+                    $validate->signature();
+
+                    // confirms the token expiration claim (exp) has not expired.
+                    $validate->expiration();
+
+                    // confirms the token not before claim (nbf) has elapsed.
+                    $validate->notBefore();
+
+                    // confirms the token audience claim (aud) matches what is expected.
+                    $validate->audience('https://illanes.com');
+
+                    // confirms the token algorithm claim (alg) matches what is expected and is valid
+                    $validate->algorithm(['HS256']);
+
+                    // confirms the token algorithm claim (alg) is not set to none.
+                    $validate->algorithmNotNone();
+                } catch (BuildException $e) {
+                    return null;
+                } catch (ParseException $e) {
+                    return null;
+                } catch (TokensException $e) {
+                    return null;
+                } catch (ValidateException $e) {
+                    return null;
+                }
+
                 $payload = $parse->parse()->getPayload();
 
                 if ($payload) {
-                    // TODO: Validate claims in payload and against user in database
-                    // var_dump($payload);
-                    // var_dump($payload['user_name']);
                     $valid_id_token = true;
                 }
             }
