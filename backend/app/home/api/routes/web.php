@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+use ReallySimpleJWT\Token;
 use ReallySimpleJWT\Build;
 use ReallySimpleJWT\Secret;
 use ReallySimpleJWT\Helper\Validator;
@@ -153,11 +154,31 @@ $router->get('score/game/{game_id:[0-9]+}', ['middleware' => 'auth', function (R
         ->header('Access-Control-Allow-Headers', 'X-Requested-With');
 }]);
 
+$router->get('token', ['middleware' => 'auth', function (Request $request, $id = null) {
+    authenticated($request);
+    $content = new StdClass();
+    if($request->header('Authorization') && str_starts_with($request->header('Authorization'), 'Bearer ')) {
+        $secret = 'TvJH3&B&tD5s2Y';
+        $token = preg_replace('/^Bearer /', '', $request->header('Authorization'));
+
+        // Return the header claims
+        $jwt_header = Token::getHeader($token, $secret);
+
+        // Return the payload claims
+        $jwt_payload = Token::getPayload($token, $secret);
+
+        $content->header = $jwt_header;
+        $content->payload = $jwt_payload;
+    }
+    return response()->json($content);
+}]);
+
 $router->get('endpoint', ['middleware' => 'auth', function (Request $request) {
     authenticated($request);
     $content = new StdClass();
     $endpoints = array(
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/version'),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/token'),
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/user'),
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/user/{id}'),
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/round'),
