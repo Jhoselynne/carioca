@@ -90,6 +90,38 @@ $router->post('login', ['middleware' => 'auth', function (Request $request) {
     }
 }]);
 
+$router->put('score/game/{game_id:[0-9]+}', ['middleware' => 'auth', function (Request $request, $game_id = null) {
+    authenticated($request);
+
+    $jwt = getJwtFromRequest($request);
+    $user_id = $jwt->payload['user_id'];
+
+    $scores = json_decode($request->getContent(), TRUE);
+
+    $table = 'carioca_score';
+    $haystack = app('db')->select("SELECT round_id FROM $table WHERE game_id = $game_id AND user_id = $user_id");
+    foreach ($scores as $round_id => $score) {
+        $needle = json_decode("{\"round_id\": $round_id}");
+        if (is_numeric($round_id) && $round_id >= 1 && $round_id <= 8) {
+            if (in_array($needle, $haystack, FALSE)) {
+                // Score exist in database for game, user and round. Update the score.
+                app('db')->update("UPDATE $table SET points = $score WHERE game_id = $game_id AND user_id = $user_id AND round_id = $round_id");
+            } else {
+                // Score does not exist in database for game, user and round. Insert the score.
+                app('db')->insert("INSERT INTO $table (game_id, user_id, round_id, points) VALUES (?, ?, ?, ?)", [$game_id, $user_id, $round_id, $score]);
+            }
+        } else {
+            // TODO: Improve response. Add status on updates, skips and failures.
+        }
+    }
+
+    $content = new StdClass();
+    $content->updated = true;
+
+    return response()
+        ->json($content);
+}]);
+
 $router->get('user[/{id:[0-9]+}]', ['middleware' => 'auth', function (Request $request, $id = null) {
     authenticated($request);
     $table = 'carioca_user';
@@ -156,20 +188,7 @@ $router->get('score/game/{game_id:[0-9]+}', ['middleware' => 'auth', function (R
 
 $router->get('token', ['middleware' => 'auth', function (Request $request, $id = null) {
     authenticated($request);
-    $content = new StdClass();
-    if($request->header('Authorization') && str_starts_with($request->header('Authorization'), 'Bearer ')) {
-        $secret = 'TvJH3&B&tD5s2Y';
-        $token = preg_replace('/^Bearer /', '', $request->header('Authorization'));
-
-        // Return the header claims
-        $jwt_header = Token::getHeader($token, $secret);
-
-        // Return the payload claims
-        $jwt_payload = Token::getPayload($token, $secret);
-
-        $content->header = $jwt_header;
-        $content->payload = $jwt_payload;
-    }
+    $content = getJwtFromRequest($request);
     return response()->json($content);
 }]);
 
@@ -197,3 +216,20 @@ $router->get('[{path:.*}]', ['middleware' => 'auth', function (Request $request,
     authenticated($request);
     return 'Path \'' . $path . '\' was not found.';
 }]);
+
+function getJwtFromRequest(Request $request) {
+    $jwt = new StdClass();
+
+    if($request->header('Authorization') && str_starts_with($request->header('Authorization'), 'Bearer ')) {
+        $secret = 'TvJH3&B&tD5s2Y';
+        $token = preg_replace('/^Bearer /', '', $request->header('Authorization'));
+
+        // Return the header claims
+        $jwt->header = Token::getHeader($token, $secret);
+
+        // Return the payload claims
+        $jwt->payload = Token::getPayload($token, $secret);
+    }
+
+    return $jwt;
+}
