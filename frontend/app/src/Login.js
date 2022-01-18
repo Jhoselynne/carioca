@@ -45,7 +45,7 @@ function Login({ navigation }) {
       </View>
       <View style={styles.spacebetween}>
         <Text> Password </Text>
-        <TextInput style= {styles.boxBorder} onChangeText={setPassword}></TextInput>
+        <TextInput style= {styles.boxBorder} secureTextEntry={true} onChangeText={setPassword}></TextInput>
       </View>
       <Button
         title="Enter" onPress={getToken}
