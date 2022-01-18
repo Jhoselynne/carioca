@@ -204,6 +204,7 @@ $router->get('endpoint', ['middleware' => 'auth', function (Request $request) {
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/round/{id}'),
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/game/{id}'),
         new Endpoint('GET', 'https://illanes.com/carioca/api/public/score/game/{id}'),
+        new Endpoint('PUT', 'https://illanes.com/carioca/api/public/score/game/{id}'),
         new Endpoint('POST', 'https://illanes.com/carioca/api/public/login'),
     );
     $content->endpoints = $endpoints;
