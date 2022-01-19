@@ -196,16 +196,16 @@ $router->get('endpoint', ['middleware' => 'auth', function (Request $request) {
     authenticated($request);
     $content = new StdClass();
     $endpoints = array(
-        new Endpoint('GET', 'https://illanes.com/carioca/api/public/version'),
-        new Endpoint('GET', 'https://illanes.com/carioca/api/public/token'),
-        new Endpoint('GET', 'https://illanes.com/carioca/api/public/user'),
-        new Endpoint('GET', 'https://illanes.com/carioca/api/public/user/{id}'),
-        new Endpoint('GET', 'https://illanes.com/carioca/api/public/round'),
-        new Endpoint('GET', 'https://illanes.com/carioca/api/public/round/{id}'),
-        new Endpoint('GET', 'https://illanes.com/carioca/api/public/game/{id}'),
-        new Endpoint('GET', 'https://illanes.com/carioca/api/public/score/game/{id}'),
-        new Endpoint('PUT', 'https://illanes.com/carioca/api/public/score/game/{id}'),
-        new Endpoint('POST', 'https://illanes.com/carioca/api/public/login'),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/version', new StdClass(), new StdClass()),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/token', (object) array("X-Api-Token" => "GUID", "Authorization" => "Bearer ID_TOKEN"), new StdClass()),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/user', (object) array("X-Api-Token" => "GUID", "Authorization" => "Bearer ID_TOKEN"), new StdClass()),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/user/{id}', (object) array("X-Api-Token" => "GUID", "Authorization" => "Bearer ID_TOKEN"), new StdClass()),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/round', (object) array("X-Api-Token" => "GUID", "Authorization" => "Bearer ID_TOKEN"), new StdClass()),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/round/{id}', (object) array("X-Api-Token" => "GUID", "Authorization" => "Bearer ID_TOKEN"), new StdClass()),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/game/{id}', (object) array("X-Api-Token" => "GUID", "Authorization" => "Bearer ID_TOKEN"), new StdClass()),
+        new Endpoint('GET', 'https://illanes.com/carioca/api/public/score/game/{id}', (object) array("X-Api-Token" => "GUID", "Authorization" => "Bearer ID_TOKEN"), new StdClass()),
+        new Endpoint('PUT', 'https://illanes.com/carioca/api/public/score/game/{id}', (object) array("X-Api-Token" => "GUID", "Authorization" => "Bearer ID_TOKEN"), (object) array("1" => 10, "2" => 35, "3" => 0, "4" => 85, "5" => 100, "6" => 0, "7" => 95, "8" => 70)),
+        new Endpoint('POST', 'https://illanes.com/carioca/api/public/login', (object) array("X-Api-Token" => "GUID"), (object) array("username" => "MyUserName", "userpassword" => "MyUserPassword")),
     );
     $content->endpoints = $endpoints;
     return response()
