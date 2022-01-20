@@ -9,9 +9,9 @@ function ChooseGameID ({ navigation }) {
 
     return(
         <View style={styles.container}>
-            <Text> Game ID </Text>
-            <Text> {jwtDecode(token).user_name} </Text>
+            <Text> Welcome: {jwtDecode(token).user_name} </Text>
             <View style={styles.spacebetween}>
+                <Text> Game ID </Text>
                 <TextInput style= {styles.boxBorder}></TextInput>
             </View>
             <Button
