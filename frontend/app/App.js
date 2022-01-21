@@ -8,7 +8,6 @@ export const ContextToken = createContext();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
   const [token, setToken] = useState();
 
   return (
@@ -38,7 +37,7 @@ export default function App() {
           />
           <Stack.Screen
             name="GameID"
-            getComponent={() => require("./src/ChooseGameID").default}
+            getComponent={() => require("./src/GameID").default}
           />
           <Stack.Screen
             name="Round"
