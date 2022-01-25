@@ -23,7 +23,29 @@ function EditScore({ navigation }) {
     .then((response) => response.json())
     .then((json) => {
       setRounds(json)
-      console.log(json);
+    })
+    .catch((e) => console.log(e));
+  }, [])
+
+  useEffect(() => {
+    fetch('https://illanes.com/carioca/api/public/score/game/2', {
+      method: 'GET',
+      headers: new Headers({
+        'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
+        'Authorization': 'Bearer ' + token
+      })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      const user = json.users.find(item => item.userId === jwtDecode(token).user_id);
+      if (user) {
+        let onlyPoints = ["","","","","","","",""];
+        for (let index = 0; index < user.points.length; index++) {
+          onlyPoints[index] = user.points[index].points;
+        }
+        console.log(onlyPoints);
+        setPoints(onlyPoints);
+      }
     })
     .catch((e) => console.log(e));
   }, [])
@@ -49,6 +71,7 @@ function EditScore({ navigation }) {
       if (response.status !== 200) {
         throw new Error(response.status);
       }
+      navigation.navigate('Round');
     })
     .catch((e) => {
       alert("Incorrect value!");
@@ -65,33 +88,33 @@ function EditScore({ navigation }) {
           keyExtractor={item => item.name}
           renderItem={({item, index}) => (
           <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
-              <Text>{item.name}</Text>
-              <View style={{flexDirection: 'row', marginLeft: 5}}>
-                  <TextInput style= {styles.boxBorder}
-                    placeholder="0"
-                    value={points[index]}
-                    onChangeText={(value) => {
-                      if (value == "") {
-                        const newPoints = points.slice()
-                        newPoints[index] = value
-                        setPoints(newPoints)
-                      }
-                      else if (Number(value) != NaN) {
-                        const newPoints = points.slice()
-                        newPoints[index] = Number(value)
-                        setPoints(newPoints)
-                      }
-                    }}
-                  />
-                  <Text> p</Text>
-              </View>
+            <Text>{item.name}</Text>
+            <View style={{flexDirection: 'row', marginLeft: 5}}>
+              <TextInput style= {styles.boxBorder}
+                placeholder="0"
+                value={points[index]}
+                onChangeText={(value) => {
+                  if (value == "") {
+                    const newPoints = points.slice()
+                    newPoints[index] = value
+                    setPoints(newPoints)
+                  }
+                  else if (Number(value) != NaN) {
+                    const newPoints = points.slice()
+                    newPoints[index] = Number(value)
+                    setPoints(newPoints)
+                  }
+                }}
+              />
+              <Text> p</Text>
+            </View>
           </View>
           )}
         />
       </View>
       <Button
-          title="Save"
-          onPress={putPoints}
+        title="Save"
+        onPress={putPoints}
       />
     </View>
   );
