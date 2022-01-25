@@ -40,10 +40,3 @@ const styles = StyleSheet.create({
 });
 
 export default GameID;
-
-// for (let index = 0; index < users.length; index++) {
-//     const user = users[index];
-//     for (let index2 = 0; index2 < user.points.length; index2++) {
-//       const points = user.points[index2];
-//     }
-//   }
