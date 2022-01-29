@@ -20,30 +20,18 @@ function Round({ navigation }) {
     })
     .then((response) => response.json())
     .then((json) => {
-      setPlayerInfo(json.users);
-      console.log(json.users);
-
-      let myPoints = [{}];
       for (let index = 0; index < json.users.length; index++) {
         const user = json.users[index];
-
+        let sum = 0;
         for (let index2 = 0; index2 < user.points.length; index2++) {
-          // const Points = user.points[index2].points;
-          myPoints[index2] = user.points[index2].points;
-          console.log(myPoints);
-          // myPoints[index2] = Number(Points[index2]);
+          sum += user.points[index2].points;
         }
+        user.sum = sum;
       }
-      console.log(myPoints);
+      setPlayerInfo(json.users);
     })
     .catch((e) => console.log(e));
   }, [])
-
-  // Use reduce to get the total sum of points!
-  // function getSum(total, num) {
-  //   return total + num;
-  // }
-  // points.reduce(getSum, 0);
 
   return (
     <View style={styles.container}>
@@ -59,7 +47,7 @@ function Round({ navigation }) {
             keyExtractor={item => item.userName}
             renderItem={({item, index}) => (
             <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
-              <Text>{item.userName + " " + item.points[(index).points]}</Text>
+              <Text>{item.userName + " " + item.sum}</Text>
               <View style={{flexDirection: 'row', marginLeft: 5}}>
                 <Text> p</Text>
               </View>
