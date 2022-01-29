@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, Text, Button, TextInput } from "react-native";
-import { ContextStatus } from "../App";
+import { ContextToken } from "../App";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login({ navigation }) {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const {status, setStatus} = useContext(ContextStatus);
+  const {token, setToken} = useContext(ContextToken);
 
   const getToken = () => {
     fetch('https://illanes.com/carioca/api/public/login', {
@@ -24,7 +24,7 @@ function Login({ navigation }) {
       return response.json()
     })
     .then((response) => {
-      setStatus(response.id_token);
+      setToken(response.id_token);
     })
     .catch((e) => {
       alert("Incorrect username or password!");
@@ -32,11 +32,11 @@ function Login({ navigation }) {
   }
 
   useEffect(() => {
-    if (status) {
+    if (token) {
       // TODO: Save token in context
       navigation.navigate('GameID');
     }
-  }, [status])
+  }, [token])
 
   return (
     <View style={styles.container}>

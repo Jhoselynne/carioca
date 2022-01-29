@@ -2,11 +2,11 @@ import jwtDecode from "jwt-decode";
 import React, { useContext, useEffect, useState } from 'react';
 import {StyleSheet, View, Text, Button} from "react-native";
 import { FlatList, TextInput } from 'react-native-web';
-import { ContextStatus } from "../App";
+import { ContextToken } from "../App";
 
 function EditScore({ navigation }) {
 
-  const {status} = useContext(ContextStatus);
+  const {token} = useContext(ContextToken);
 
   // Hooks
   const [rounds, setRounds] = useState([]);
@@ -17,7 +17,7 @@ function EditScore({ navigation }) {
       method: 'GET',
       headers: new Headers({
         'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
-        'Authorization': 'Bearer ' + status
+        'Authorization': 'Bearer ' + token
       })
     })
     .then((response) => response.json())
@@ -32,12 +32,12 @@ function EditScore({ navigation }) {
       method: 'GET',
       headers: new Headers({
         'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
-        'Authorization': 'Bearer ' + status
+        'Authorization': 'Bearer ' + token
       })
     })
     .then((response) => response.json())
     .then((json) => {
-      const user = json.users.find(item => item.userId === jwtDecode(status).user_id);
+      const user = json.users.find(item => item.userId === jwtDecode(token).user_id);
       if (user) {
         let onlyPoints = ["","","","","","","",""];
         for (let index = 0; index < user.points.length; index++) {
@@ -62,7 +62,7 @@ function EditScore({ navigation }) {
       method: 'PUT',
       headers: new Headers({
         'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
-        'Authorization': 'Bearer ' + status,
+        'Authorization': 'Bearer ' + token,
         'content-type': 'application/json'
       }),
       body: JSON.stringify(obj)
@@ -80,7 +80,7 @@ function EditScore({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text> User: {jwtDecode(status).user_name} </Text>
+      <Text> User: {jwtDecode(token).user_name} </Text>
       <Text> Scores </Text>
       <View style={styles.spacebetween}>
         <FlatList

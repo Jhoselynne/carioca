@@ -3,15 +3,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Button } from "react-native-web";
 
-export const ContextStatus = createContext();
+export const ContextToken = createContext();
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [status, setStatus] = useState();
+  const [token, setToken] = useState();
 
   return (
-    <ContextStatus.Provider value={{status, setStatus}}>
+    <ContextToken.Provider value={{token, setToken}}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
@@ -49,6 +49,6 @@ export default function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-    </ContextStatus.Provider>
+    </ContextToken.Provider>
   );
 }

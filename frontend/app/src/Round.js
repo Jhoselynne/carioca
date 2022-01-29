@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {StyleSheet, View, Text, Button, FlatList} from "react-native";
-import { ContextStatus } from "../App";
+import { ContextToken } from "../App";
 
 function Round({ navigation }) {
-  const {status} = useContext(ContextStatus);
+  const {token} = useContext(ContextToken);
 
   const [playerInfo, setPlayerInfo] = useState([]);
 
@@ -12,7 +12,7 @@ function Round({ navigation }) {
       method: 'GET',
       headers: new Headers({
         'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
-        'Authorization': 'Bearer ' + status
+        'Authorization': 'Bearer ' + token
       })
     })
     .then((response) => response.json())
