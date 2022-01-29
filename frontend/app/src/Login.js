@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, Text, Button, TextInput } from "react-native";
 import { ContextToken } from "../App";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login({ navigation }) {
   const [userName, setUserName] = useState('');
@@ -9,25 +10,25 @@ function Login({ navigation }) {
 
   const getToken = () => {
     fetch('https://illanes.com/carioca/api/public/login', {
-            method: 'POST',
-            headers: new Headers({
-              'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
-              'content-type': 'application/json'
-            }),
-            body: JSON.stringify({'username': userName, 'userpassword': password})
-          })
-          .then((response) => {
-            if (response.status !== 200) {
-              throw new Error(response.status);
-            }
-            return response.json()
-          })
-          .then((response) => {
-            setToken(response.id_token);
-          })
-          .catch((e) => {
-            alert("Incorrect username or password!");
-          });
+      method: 'POST',
+      headers: new Headers({
+        'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
+        'content-type': 'application/json'
+      }),
+      body: JSON.stringify({'username': userName, 'userpassword': password})
+    })
+    .then((response) => {
+      if (response.status !== 200) {
+        throw new Error(response.status);
+      }
+      return response.json()
+    })
+    .then((response) => {
+      setToken(response.id_token);
+    })
+    .catch((e) => {
+      alert("Incorrect username or password!");
+    });
   }
 
   useEffect(() => {

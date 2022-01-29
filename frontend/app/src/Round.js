@@ -6,9 +6,6 @@ function Round({ navigation }) {
   const {token} = useContext(ContextToken);
 
   const [playerInfo, setPlayerInfo] = useState([]);
-  // const [points, setPoints] = useState([]);
-
-
 
   useEffect(() => {
     fetch('https://illanes.com/carioca/api/public/score/game/2', {
@@ -40,7 +37,6 @@ function Round({ navigation }) {
       <View style={{paddingTop: 20}}>
         <Text> SCOREBOARD </Text>
         <Text>*****************</Text>
-
         <View>
           <FlatList
             data={playerInfo}
