@@ -1,18 +1,19 @@
 import jwtDecode from "jwt-decode";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Text, StyleSheet, TextInput } from "react-native";
 import { View } from "react-native-web";
-import { ContextToken } from "../App";
+import { ContextGameId, ContextToken } from "../App";
 
 function GameID ({ navigation }) {
     const {token} = useContext(ContextToken);
+    const {setGameId} = useContext(ContextGameId);
 
     return(
         <View style={styles.container}>
             <Text> Welcome: {jwtDecode(token).user_name} </Text>
             <View style={styles.spacebetween}>
                 <Text> Game ID </Text>
-                <TextInput style= {styles.boxBorder}></TextInput>
+                <TextInput style= {styles.boxBorder} onChangeText={setGameId}></TextInput>
             </View>
             <Button
                 title="Enter"

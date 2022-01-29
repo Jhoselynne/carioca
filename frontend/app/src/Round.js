@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {StyleSheet, View, Text, Button, FlatList} from "react-native";
-import { ContextToken } from "../App";
+import { ContextGameId, ContextToken } from "../App";
 
 function Round({ navigation }) {
   const {token} = useContext(ContextToken);
+  const {gameId} = useContext(ContextGameId);
 
   const [playerInfo, setPlayerInfo] = useState([]);
 
   useEffect(() => {
-    fetch('https://illanes.com/carioca/api/public/score/game/2', {
+    fetch('https://illanes.com/carioca/api/public/score/game/'.concat(gameId), {
       method: 'GET',
       headers: new Headers({
         'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
@@ -33,7 +34,7 @@ function Round({ navigation }) {
   return (
     <View style={styles.container}>
       <Text> On going round:</Text>
-      <Text> "2 trios" </Text>
+      <Text> {gameId} </Text>
       <View style={{paddingTop: 20}}>
         <Text> SCOREBOARD </Text>
         <Text>*****************</Text>

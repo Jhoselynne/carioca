@@ -2,11 +2,12 @@ import jwtDecode from "jwt-decode";
 import React, { useContext, useEffect, useState } from 'react';
 import {StyleSheet, View, Text, Button} from "react-native";
 import { FlatList, TextInput } from 'react-native-web';
-import { ContextToken } from "../App";
+import { ContextGameId, ContextToken } from "../App";
 
 function EditScore({ navigation }) {
 
   const {token} = useContext(ContextToken);
+  const {gameId} = useContext(ContextGameId);
 
   // Hooks
   const [rounds, setRounds] = useState([]);
@@ -28,7 +29,7 @@ function EditScore({ navigation }) {
   }, [])
 
   useEffect(() => {
-    fetch('https://illanes.com/carioca/api/public/score/game/2', {
+    fetch('https://illanes.com/carioca/api/public/score/game/'.concat(gameId), {
       method: 'GET',
       headers: new Headers({
         'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
@@ -58,7 +59,7 @@ function EditScore({ navigation }) {
       const value = Number(points[index]);
       obj[key] = value;
     }
-    fetch('https://illanes.com/carioca/api/public/score/game/2', {
+    fetch('https://illanes.com/carioca/api/public/score/game/'.concat(gameId), {
       method: 'PUT',
       headers: new Headers({
         'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
