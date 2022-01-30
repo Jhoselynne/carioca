@@ -26,7 +26,9 @@ function Round({ navigation }) {
         }
         user.sum = sum;
       }
-      setPlayerInfo(json.users);
+      setPlayerInfo(json.users.sort(function(a, b) {
+        return a.sum-b.sum
+      }));
     })
     .catch((e) => console.log(e));
   }, [])
