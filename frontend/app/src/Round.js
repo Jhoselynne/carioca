@@ -39,16 +39,16 @@ function Round({ navigation }) {
       <Text> {gameId} </Text>
       <View style={{paddingTop: 20}}>
         <Text> SCOREBOARD </Text>
-        <Text>*****************</Text>
+        <Text>****************</Text>
         <View>
           <FlatList
             data={playerInfo}
             keyExtractor={item => item.userName}
             renderItem={({item, index}) => (
             <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
-              <Text>{item.userName + " " + item.sum}</Text>
+              <Text>{item.userName}</Text>
               <View style={{flexDirection: 'row', marginLeft: 5}}>
-                <Text> p</Text>
+                <Text> {item.sum} p</Text>
               </View>
             </View>
             )}
