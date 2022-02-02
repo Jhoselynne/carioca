@@ -7,6 +7,9 @@ function Round({ navigation }) {
   const {gameId} = useContext(ContextGameId);
 
   const [playerInfo, setPlayerInfo] = useState([]);
+  const [numberOfPlayers, setNumberOfPlayers] = useState(0);
+  const [roundId, setRoundId] = useState();
+  const [roundName, setRoundName] = useState("");
 
   useEffect(() => {
     fetch('https://illanes.com/carioca/api/public/score/game/'.concat(gameId), {
@@ -18,6 +21,8 @@ function Round({ navigation }) {
     })
     .then((response) => response.json())
     .then((json) => {
+      setNumberOfPlayers(json.users.length);
+      setRoundId(json.roundId);
       for (let index = 0; index < json.users.length; index++) {
         const user = json.users[index];
         let sum = 0;
@@ -33,27 +38,42 @@ function Round({ navigation }) {
     .catch((e) => console.log(e));
   }, [])
 
+  useEffect(() => {
+    if (roundId) {
+      fetch('https://illanes.com/carioca/api/public/round/'.concat(roundId), {
+        method: 'GET',
+        headers: new Headers({
+          'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
+          'Authorization': 'Bearer ' + token
+        })
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        setRoundName(json.name);
+      })
+      .catch((e) => console.log(e));
+    }
+  }, [roundId])
+
   return (
     <View style={styles.container}>
-      <Text> On going round:</Text>
-      <Text> {gameId} </Text>
-      <View style={{paddingTop: 20}}>
-        <Text> SCOREBOARD </Text>
-        <Text>****************</Text>
-        <View>
-          <FlatList
-            data={playerInfo}
-            keyExtractor={item => item.userName}
-            renderItem={({item, index}) => (
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
-              <Text>{item.userName}</Text>
-              <View style={{flexDirection: 'row', marginLeft: 5}}>
-                <Text> {item.sum} p</Text>
-              </View>
+      <Text>On going round:</Text>
+      <Text>{roundName}</Text>
+      <Text style={{paddingTop: 20}}>SCOREBOARD</Text>
+      <Text>****************</Text>
+      <View style={{height: numberOfPlayers * 30}}>
+        <FlatList
+          data={playerInfo}
+          keyExtractor={item => item.userName}
+          renderItem={({item, index}) => (
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
+            <Text>{item.userName}</Text>
+            <View style={{flexDirection: 'row', marginLeft: 5}}>
+              <Text> {item.sum} p</Text>
             </View>
-            )}
-          />
-        </View>
+          </View>
+          )}
+        />
       </View>
       <View style={styles.spacebetween}>
         <Button
