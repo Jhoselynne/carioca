@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button } from "react-native-web";
+import { Button } from "react-native";
 
 export const ContextToken = createContext();
 export const ContextGameId = createContext();
