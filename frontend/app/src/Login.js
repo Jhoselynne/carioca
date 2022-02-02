@@ -33,7 +33,6 @@ function Login({ navigation }) {
 
   useEffect(() => {
     if (token) {
-      // TODO: Save token in context
       navigation.navigate('GameID');
     }
   }, [token])
