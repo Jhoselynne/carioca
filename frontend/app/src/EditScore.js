@@ -1,7 +1,6 @@
 import jwtDecode from "jwt-decode";
 import React, { useContext, useEffect, useState } from 'react';
-import {StyleSheet, View, Text, Button} from "react-native";
-import { FlatList, TextInput } from 'react-native-web';
+import {StyleSheet, View, Text, Button, FlatList, TextInput} from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
 function EditScore({ navigation }) {
@@ -51,6 +50,7 @@ function EditScore({ navigation }) {
     .catch((e) => console.log(e));
   }, [])
 
+  // Send points to backend
   const putPoints = () => {
     let obj = {}
     for (let index = 0; index < rounds.length; index++) {

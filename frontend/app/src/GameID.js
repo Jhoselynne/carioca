@@ -1,7 +1,6 @@
 import jwtDecode from "jwt-decode";
 import React, { useContext, useState } from "react";
-import { Button, Text, StyleSheet, TextInput } from "react-native";
-import { View } from "react-native-web";
+import { Button, Text, StyleSheet, TextInput, View } from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
 function GameID ({ navigation }) {
