@@ -7,7 +7,6 @@ function Round({ navigation }) {
   const {gameId} = useContext(ContextGameId);
 
   const [playerInfo, setPlayerInfo] = useState([]);
-  const [numberOfPlayers, setNumberOfPlayers] = useState(0);
   const [roundId, setRoundId] = useState();
   const [roundName, setRoundName] = useState("");
 
@@ -21,7 +20,6 @@ function Round({ navigation }) {
     })
     .then((response) => response.json())
     .then((json) => {
-      setNumberOfPlayers(json.users.length);
       setRoundId(json.roundId);
       for (let index = 0; index < json.users.length; index++) {
         const user = json.users[index];
@@ -61,26 +59,23 @@ function Round({ navigation }) {
       <Text>{roundName}</Text>
       <Text style={{paddingTop: 20}}>SCOREBOARD</Text>
       <Text>****************</Text>
-      <View style={{height: numberOfPlayers * 30}}>
-        <FlatList
-          data={playerInfo}
-          keyExtractor={item => item.userName}
-          renderItem={({item, index}) => (
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
-            <Text>{item.userName}</Text>
-            <View style={{flexDirection: 'row', marginLeft: 5}}>
-              <Text> {item.sum} p</Text>
-            </View>
+      <FlatList
+        style={styles.disableGrow}
+        data={playerInfo}
+        keyExtractor={item => item.userName}
+        renderItem={({item, index}) => (
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
+          <Text>{item.userName}</Text>
+          <View style={{flexDirection: 'row', marginLeft: 5}}>
+            <Text> {item.sum} p</Text>
           </View>
-          )}
-        />
-      </View>
-      <View style={styles.spacebetween}>
-        <Button
-          title="Enter Score"
-          onPress={() => navigation.navigate('Edit Score')}
-        />
-      </View>
+        </View>
+        )}
+      />
+      <Button
+        title="Enter Score"
+        onPress={() => navigation.navigate('Edit Score')}
+      />
     </View>
   )
 }
@@ -92,8 +87,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  spacebetween: {
-    paddingVertical: 20,
+  disableGrow: {
+    flexGrow: 0,
   }
 });
 
