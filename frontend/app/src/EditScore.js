@@ -85,6 +85,7 @@ function EditScore({ navigation }) {
       <Text> Scores </Text>
       <View style={styles.spacebetween}>
         <FlatList
+          style={styles.disableGrow}
           data={rounds}
           keyExtractor={item => item.name}
           renderItem={({item, index}) => (
@@ -92,6 +93,7 @@ function EditScore({ navigation }) {
             <Text>{item.name}</Text>
             <View style={{flexDirection: 'row', marginLeft: 5}}>
               <TextInput style= {styles.boxBorder}
+                keyboardType={'numeric'}
                 placeholder="0"
                 value={points[index]}
                 onChangeText={(value) => {
@@ -128,7 +130,6 @@ function EditScore({ navigation }) {
       alignItems: 'center',
       justifyContent: 'center',
     },
-
     spacebetween: {
       paddingVertical: 20,
     },
@@ -141,6 +142,9 @@ function EditScore({ navigation }) {
       borderRadius: 2,
       width: 25
     },
+    disableGrow: {
+      flexGrow: 0,
+    }
   });
 
 export default EditScore;
