@@ -9,6 +9,7 @@ function Round({ navigation }) {
   const [playerInfo, setPlayerInfo] = useState([]);
   const [roundId, setRoundId] = useState();
   const [roundName, setRoundName] = useState("");
+  const [rendered, setRendered] = useState(Date.now());
 
   useEffect(() => {
     fetch('https://illanes.com/carioca/api/public/score/game/'.concat(gameId), {
@@ -34,7 +35,7 @@ function Round({ navigation }) {
       }));
     })
     .catch((e) => console.log(e));
-  }, [])
+  }, [rendered])
 
   useEffect(() => {
     if (roundId) {
@@ -74,7 +75,7 @@ function Round({ navigation }) {
       />
       <Button
         title="Enter Score"
-        onPress={() => navigation.navigate('Edit Score')}
+        onPress={() => navigation.navigate('Edit Score', {setRendered: setRendered})}
       />
     </View>
   )

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import {StyleSheet, View, Text, Button, FlatList, TextInput} from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
-function EditScore({ navigation }) {
+function EditScore({ route, navigation }) {
 
   const {token} = useContext(ContextToken);
   const {gameId} = useContext(ContextGameId);
@@ -72,6 +72,7 @@ function EditScore({ navigation }) {
       if (response.status !== 200) {
         throw new Error(response.status);
       }
+      route.params.setRendered(Date.now());
       navigation.navigate('Round');
     })
     .catch((e) => {
