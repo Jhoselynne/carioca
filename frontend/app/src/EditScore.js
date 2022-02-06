@@ -92,10 +92,11 @@ function EditScore({ navigation }) {
           <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
             <Text>{item.name}</Text>
             <View style={{flexDirection: 'row', marginLeft: 5}}>
-              <TextInput style= {styles.boxBorder}
+              <TextInput
+                style= {styles.boxBorder}
                 keyboardType={'numeric'}
                 placeholder="0"
-                value={points[index]}
+                value={points[index].toString()}
                 onChangeText={(value) => {
                   if (value == "") {
                     const newPoints = points.slice()
