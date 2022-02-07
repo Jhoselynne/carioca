@@ -178,16 +178,17 @@ $router->get('score/game/{game_id:[0-9]+}', ['middleware' => 'auth', function (R
                 array_push($user->points, $point);
             }
         }
-    }
+        // $scores = app('db')->select("SELECT user_id, SUM(points) AS total_points FROM carioca_score WHERE game_id = $game_id GROUP BY user_id");
+        // $scores = app('db')->select("SELECT game_id, user_id, round_id, points FROM carioca_score WHERE game_id = $game_id");
 
-    // $scores = app('db')->select("SELECT user_id, SUM(points) AS total_points FROM carioca_score WHERE game_id = $game_id GROUP BY user_id");
-    // $scores = app('db')->select("SELECT game_id, user_id, round_id, points FROM carioca_score WHERE game_id = $game_id");
-
-    return response()
+        return response()
         ->json($game)
         ->header('Access-Control-Allow-Origin', '*')
         ->header('Access-Control-Allow-Methods', 'GET')
         ->header('Access-Control-Allow-Headers', 'X-Requested-With');
+    } else {
+        return response()->json(['error' => 'Game not found'], 404);
+    }
 }]);
 
 $router->get('token', ['middleware' => 'auth', function (Request $request, $id = null) {
