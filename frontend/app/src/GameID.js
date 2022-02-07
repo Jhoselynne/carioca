@@ -1,11 +1,41 @@
 import jwtDecode from "jwt-decode";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Text, StyleSheet, TextInput, View } from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
 function GameID({ navigation }) {
   const { token } = useContext(ContextToken);
-  const { setGameId } = useContext(ContextGameId);
+  const { gameId, setGameId } = useContext(ContextGameId);
+  const [gameIdValue, setGameIdValue] = useState();
+
+  const getGameId = () => {
+    fetch('https://illanes.com/carioca/api/public/game/'.concat(gameIdValue), {
+      method: 'Get',
+      headers: new Headers({
+        'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
+        'Authorization': 'Bearer ' + token
+      }),
+    })
+    .then((response) => {
+      if (response.status !== 200) {
+        throw new Error(response.status);
+      }
+      return response.json()
+    })
+    .then((response) => {
+      setGameId(response.id);
+      console.log(response.id);
+    })
+    .catch((e) => {
+      alert("Game not found, select 1, 2 or 3");
+    });
+  }
+
+  useEffect(() => {
+    if (gameId) {
+      navigation.navigate('Round');
+    }
+  }, [gameId])
 
   return (
     <View style={styles.container}>
@@ -14,13 +44,13 @@ function GameID({ navigation }) {
         <Text> Game ID </Text>
         <TextInput
           style={styles.boxBorder}
-          placeholder="Set a number"
-          onChangeText={setGameId}>
+          placeholder = "Set a number"
+          onChangeText = {setGameIdValue}>
         </TextInput>
       </View>
       <Button
-        title="Enter"
-        onPress={() => navigation.navigate("Round")}
+        title = "Enter"
+        onPress = {getGameId}
       />
     </View>
   );
