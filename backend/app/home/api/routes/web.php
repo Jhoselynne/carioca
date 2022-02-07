@@ -151,7 +151,11 @@ $router->get('game/{id:[0-9]+}', ['middleware' => 'auth', function (Request $req
     $table = 'carioca_game';
     $results = app('db')->select("SELECT id, round_id FROM $table WHERE id = $id");
     $results = isset($results[0]) ? $results[0] : null;
-    return response()->json($results);
+    if($results != null) {
+        return response()->json($results);
+    } else {
+        return response()->json(['error' => 'Game not found'], 404);
+    }
 }]);
 
 $router->get('score/game/{game_id:[0-9]+}', ['middleware' => 'auth', function (Request $request, $game_id) {
