@@ -5,7 +5,7 @@ import { ContextGameId, ContextToken } from "../App";
 
 function GameID({ navigation }) {
   const { token } = useContext(ContextToken);
-  const { gameId, setGameId } = useContext(ContextGameId);
+  const { setGameId } = useContext(ContextGameId);
   const [gameIdValue, setGameIdValue] = useState();
 
   const getGameId = () => {
@@ -24,18 +24,12 @@ function GameID({ navigation }) {
     })
     .then((response) => {
       setGameId(response.id);
-      console.log(response.id);
+      navigation.navigate('Round');
     })
     .catch((e) => {
       alert("Game not found, select 1, 2 or 3");
     });
   }
-
-  useEffect(() => {
-    if (gameId) {
-      navigation.navigate('Round');
-    }
-  }, [gameId])
 
   return (
     <View style={styles.container}>
