@@ -41,14 +41,22 @@ function Login({ navigation }) {
     <View style={styles.container}>
       <View style={styles.spacebetween}>
         <Text> User Name </Text>
-        <TextInput style={styles.boxBorder} onChangeText={setUserName}></TextInput>
+        <TextInput
+          style={styles.boxBorder}
+          onChangeText={setUserName}>
+        </TextInput>
       </View>
       <View style={styles.spacebetween}>
         <Text> Password </Text>
-        <TextInput style= {styles.boxBorder} secureTextEntry={true} onChangeText={setPassword}></TextInput>
+        <TextInput
+          style= {styles.boxBorder}
+          secureTextEntry={true}
+          onChangeText={setPassword}>
+        </TextInput>
       </View>
       <Button
-        title="Enter" onPress={getToken}
+        title="Enter"
+        onPress={getToken}
       />
     </View>
   );
