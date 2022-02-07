@@ -1,5 +1,5 @@
 import jwtDecode from "jwt-decode";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Text, StyleSheet, TextInput, View } from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
