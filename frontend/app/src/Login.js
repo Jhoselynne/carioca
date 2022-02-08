@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { StyleSheet, View, Text, Button, TextInput } from "react-native";
+import { StyleSheet, View, Text, Button, TextInput, Platform } from "react-native";
 import { ContextToken } from "../App";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -65,7 +65,20 @@ function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+
+    ...Platform.select({
+      ios: {
+        backgroundColor: 'pink'
+      },
+      android: {
+        backgroundColor: 'lightgrey'
+      },
+      default: {
+        backgroundColor: 'blue'
+      },
+    }),
+
+    // backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
