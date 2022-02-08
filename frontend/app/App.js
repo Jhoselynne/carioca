@@ -1,7 +1,8 @@
 import React, { createContext, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Button } from "react-native";
+import { Text } from "react-native";
+import jwtDecode from "jwt-decode";
 
 export const ContextToken = createContext();
 export const ContextGameId = createContext();
@@ -30,18 +31,16 @@ export default function App() {
                 headerTitleStyle: {
                   fontWeight: "bold",
                 },
-                headerRight: () => (
-                  <Button
-                    onPress={() => alert("This is a button!")}
-                    title="Alert test"
-                    color="purple"
-                  />
-                ),
               }}
             />
             <Stack.Screen
               name="GameID"
               getComponent={() => require("./src/GameID").default}
+              options={{
+                headerTitleAlign: "center",
+                headerRight: () => (
+                  <Text>User: {jwtDecode(token).user_name}</Text>),
+              }}
             />
             <Stack.Screen
               name="Round"
