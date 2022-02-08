@@ -89,8 +89,10 @@ function EditScore({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text> User: {jwtDecode(token).user_name} </Text>
-      <Text> Scores </Text>
+      <Text>**************</Text>
+      <Text> {jwtDecode(token).user_name}'s </Text>
+      <Text> Score </Text>
+      <Text>**************</Text>
       <View style={styles.spacebetween}>
         <FlatList
           style={styles.disableGrow}
@@ -101,7 +103,7 @@ function EditScore({ route, navigation }) {
             <Text>{item.name}</Text>
             <View style={{flexDirection: 'row', marginLeft: 5}}>
               <TextInput
-                style= {styles.boxBorder}
+                style= {styles.inputBox}
                 keyboardType={'numeric'}
                 placeholder="0"
                 value={points[index].toString()}
@@ -150,10 +152,11 @@ function EditScore({ route, navigation }) {
         fontSize: 20,
         fontWeight: 'bold',
     },
-    boxBorder: {
+    inputBox: {
       borderWidth: 1,
       borderRadius: 2,
-      width: 25
+      width: 30,
+      textAlign: 'center'
     },
     disableGrow: {
       flexGrow: 0,

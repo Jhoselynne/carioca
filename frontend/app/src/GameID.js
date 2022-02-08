@@ -35,7 +35,7 @@ function GameID({ navigation }) {
       <View style={styles.spacebetween}>
         <Text> Game ID </Text>
         <TextInput
-          style={styles.boxBorder}
+          style={styles.inpuBox}
           placeholder = "Set a number"
           onChangeText = {setGameIdValue}>
         </TextInput>
@@ -59,9 +59,10 @@ const styles = StyleSheet.create({
   spacebetween: {
     paddingVertical: 20,
   },
-  boxBorder: {
+  inpuBox: {
     borderWidth: 1,
     borderRadius: 2,
+    width: 90
   },
 });
 
