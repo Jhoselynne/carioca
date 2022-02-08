@@ -1,4 +1,3 @@
-import jwtDecode from "jwt-decode";
 import React, { useContext, useState } from "react";
 import { Button, Text, StyleSheet, TextInput, View } from "react-native";
 import { ContextGameId, ContextToken } from "../App";
@@ -33,7 +32,6 @@ function GameID({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text> Welcome: {jwtDecode(token).user_name} </Text>
       <View style={styles.spacebetween}>
         <Text> Game ID </Text>
         <TextInput

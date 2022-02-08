@@ -18,37 +18,56 @@ export default function App() {
     <ContextToken.Provider value={{token, setToken}}>
       <ContextGameId.Provider value={{gameId, setGameId}}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Login">
+          <Stack.Navigator
+            initialRouteName="Login"
+
+            screenOptions={{
+              headerTitleAlign: "center",
+              headerStyle: {
+                backgroundColor: "pink",
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                fontWeight: "bold",
+              },
+            }}>
             <Stack.Screen
               name="Login"
               getComponent={() => require("./src/Login").default}
               options={{
                 title: "Carioca",
-                headerStyle: {
-                  backgroundColor: "pink",
-                },
-                headerTintColor: "#fff",
-                headerTitleStyle: {
-                  fontWeight: "bold",
-                },
+                // headerStyle: {
+                //   backgroundColor: "pink",
+                // },
+                // headerTintColor: "#fff",
+                // headerTitleStyle: {
+                //   fontWeight: "bold",
+                // },
               }}
             />
             <Stack.Screen
               name="GameID"
               getComponent={() => require("./src/GameID").default}
               options={{
-                headerTitleAlign: "center",
                 headerRight: () => (
-                  <Text>User: {jwtDecode(token).user_name}</Text>),
+                  <Text style={{marginHorizontal: '1%'}}>Welcome: {jwtDecode(token).user_name}</Text>),
               }}
             />
             <Stack.Screen
               name="Round"
               getComponent={() => require("./src/Round").default}
+              options={{
+                headerRight: () => (
+                  <Text style={{marginHorizontal: 20}}>User: {jwtDecode(token).user_name}</Text>),
+              }}
             />
             <Stack.Screen
               name="Edit Score"
               getComponent={() => require("./src/EditScore").default}
+              options={{
+                headerRight: () => (
+                  <Text style={{marginHorizontal: 20}}>User: {jwtDecode(token).user_name}</Text>),
+              }}
             />
           </Stack.Navigator>
         </NavigationContainer>
