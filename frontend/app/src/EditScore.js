@@ -27,6 +27,7 @@ function EditScore({ route, navigation }) {
     .catch((e) => console.log(e));
   }, [])
 
+  // Fetch all players' points
   useEffect(() => {
     fetch('https://illanes.com/carioca/api/public/score/game/'.concat(gameId), {
       method: 'GET',
@@ -40,8 +41,13 @@ function EditScore({ route, navigation }) {
       const user = json.users.find(item => item.userId === jwtDecode(token).user_id);
       if (user) {
         let onlyPoints = ["","","","","","","",""];
+        // Fill onlyPoints list with the user's points
         for (let index = 0; index < user.points.length; index++) {
           onlyPoints[index] = user.points[index].points;
+          //onlyPoints[user.points[index].roundId - 1] = user.points[index].points;
+          // onlyPoints[user.points[0].roundId - 1] = user.points[0].points;
+          // onlyPoints[8 - 1] = 10;
+          // onlyPoints[7] = 10;
         }
         console.log(onlyPoints);
         setPoints(onlyPoints);
@@ -52,10 +58,11 @@ function EditScore({ route, navigation }) {
 
   // Send points to backend
   const putPoints = () => {
+    // Example of object we want to build
+    // obj = {"1": 10, "2": 35, "3": 0, "4": 85, "5": 100, "6": 0, "7": 95, "8": 70}
     let obj = {}
     for (let index = 0; index < rounds.length; index++) {
-      const round = rounds[index];
-      const key = round.id.toString();
+      const key = rounds[index].id.toString();
       const value = Number(points[index]);
       obj[key] = value;
     }
@@ -99,16 +106,20 @@ function EditScore({ route, navigation }) {
                 placeholder="0"
                 value={points[index].toString()}
                 onChangeText={(value) => {
+                  // const newPoints = points.slice()
+                  const newPoints = [...points]
+
                   if (value == "") {
-                    const newPoints = points.slice()
                     newPoints[index] = value
-                    setPoints(newPoints)
                   }
-                  else if (Number(value) != NaN) {
-                    const newPoints = points.slice()
+                  else if (!isNaN(Number(value))) {
                     newPoints[index] = Number(value)
-                    setPoints(newPoints)
                   }
+                  else {
+                    newPoints[index] = ""
+                  }
+
+                  setPoints(newPoints)
                 }}
               />
               <Text> p</Text>

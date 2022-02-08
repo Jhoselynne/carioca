@@ -22,14 +22,18 @@ function Round({ navigation }) {
     .then((response) => response.json())
     .then((json) => {
       setRoundId(json.roundId);
+      // For each user
       for (let index = 0; index < json.users.length; index++) {
         const user = json.users[index];
         let sum = 0;
+        // For each points
         for (let index2 = 0; index2 < user.points.length; index2++) {
           sum += user.points[index2].points;
         }
+        // Store sum as a new key value in the user object
         user.sum = sum;
       }
+      // Sort players by score in ascending order
       setPlayerInfo(json.users.sort(function(a, b) {
         return a.sum-b.sum
       }));
@@ -37,6 +41,7 @@ function Round({ navigation }) {
     .catch((e) => console.log(e));
   }, [rendered])
 
+  // Fetch round name
   useEffect(() => {
     if (roundId) {
       fetch('https://illanes.com/carioca/api/public/round/'.concat(roundId), {
