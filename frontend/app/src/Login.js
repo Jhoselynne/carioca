@@ -23,8 +23,8 @@ function Login({ navigation }) {
       }
       return response.json()
     })
-    .then((response) => {
-      setToken(response.id_token);
+    .then((json) => {
+      setToken(json.id_token);
     })
     .catch((e) => {
       alert("Incorrect username or password!");
