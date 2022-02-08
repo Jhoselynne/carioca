@@ -36,13 +36,6 @@ export default function App() {
               getComponent={() => require("./src/Login").default}
               options={{
                 title: "Carioca",
-                // headerStyle: {
-                //   backgroundColor: "pink",
-                // },
-                // headerTintColor: "#fff",
-                // headerTitleStyle: {
-                //   fontWeight: "bold",
-                // },
               }}
             />
             <Stack.Screen
@@ -58,7 +51,7 @@ export default function App() {
               getComponent={() => require("./src/Round").default}
               options={{
                 headerRight: () => (
-                  <Text style={{marginHorizontal: 20}}>User: {jwtDecode(token).user_name}</Text>),
+                  <Text style={{marginHorizontal: '1%'}}>User: {jwtDecode(token).user_name}</Text>),
               }}
             />
             <Stack.Screen
@@ -66,7 +59,7 @@ export default function App() {
               getComponent={() => require("./src/EditScore").default}
               options={{
                 headerRight: () => (
-                  <Text style={{marginHorizontal: 20}}>User: {jwtDecode(token).user_name}</Text>),
+                  <Text style={{marginHorizontal: '1%'}}>User: {jwtDecode(token).user_name}</Text>),
               }}
             />
           </Stack.Navigator>
