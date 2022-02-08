@@ -156,7 +156,9 @@ function EditScore({ route, navigation }) {
       borderWidth: 1,
       borderRadius: 2,
       width: 30,
-      textAlign: 'center'
+      textAlign: 'center',
+      fontSize: 16,
+      backgroundColor: '#fff',
     },
     disableGrow: {
       flexGrow: 0,

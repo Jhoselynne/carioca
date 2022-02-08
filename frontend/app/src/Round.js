@@ -61,19 +61,21 @@ function Round({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>On going round:</Text>
-      <Text>{roundName}</Text>
-      <Text style={{paddingTop: 20}}>SCOREBOARD</Text>
-      <Text>****************</Text>
+      <Text style={styles.headerSize}>On going round:</Text>
+      <Text style={styles.textSize}>{roundName}</Text>
+      <View style={styles.marginTop}>
+        <Text style={[styles.textSize, styles.scoreStyle]}>SCOREBOARD</Text>
+      </View>
+      <Text style={[styles.textSize, styles.scoreStyle]}>*******************</Text>
       <FlatList
         style={styles.disableGrow}
         data={playerInfo}
         keyExtractor={item => item.userName}
         renderItem={({item, index}) => (
         <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
-          <Text>{item.userName}</Text>
+          <Text style={styles.textSize}>{item.userName}</Text>
           <View style={{flexDirection: 'row', marginLeft: 5}}>
-            <Text> {item.sum} p</Text>
+            <Text style={styles.textSize}> {item.sum} p</Text>
           </View>
         </View>
         )}
@@ -95,6 +97,19 @@ const styles = StyleSheet.create({
   },
   disableGrow: {
     flexGrow: 0,
+  },
+  textSize: {
+    fontSize: 18,
+  },
+  headerSize: {
+    fontSize: 20,
+  },
+  marginTop: {
+    marginTop: 80,
+  },
+  scoreStyle: {
+    fontWeight: 'bold',
+    // fontSize: 18,
   }
 });
 

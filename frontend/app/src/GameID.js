@@ -33,7 +33,7 @@ function GameID({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.spacebetween}>
-        <Text> Game ID </Text>
+        <Text style={styles.textSize}> Game ID </Text>
         <TextInput
           style={styles.inpuBox}
           placeholder = "Set a number"
@@ -55,15 +55,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-
   spacebetween: {
     paddingVertical: 20,
   },
   inpuBox: {
     borderWidth: 1,
     borderRadius: 2,
-    width: 90
+    width: 100,
+    fontSize: 16,
+    backgroundColor: '#fff',
   },
+  textSize: {
+    fontSize: 18,
+  }
 });
 
 export default GameID;

@@ -1,7 +1,7 @@
 import React, { createContext, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Text } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import jwtDecode from "jwt-decode";
 
 export const ContextToken = createContext();
@@ -43,7 +43,7 @@ export default function App() {
               getComponent={() => require("./src/GameID").default}
               options={{
                 headerRight: () => (
-                  <Text style={{marginHorizontal: '1%'}}>Welcome: {jwtDecode(token).user_name}</Text>),
+                  <Text style={styles.headerStyle}>Welcome: {jwtDecode(token).user_name}</Text>),
               }}
             />
             <Stack.Screen
@@ -51,7 +51,7 @@ export default function App() {
               getComponent={() => require("./src/Round").default}
               options={{
                 headerRight: () => (
-                  <Text style={{marginHorizontal: '1%'}}>User: {jwtDecode(token).user_name}</Text>),
+                  <Text style={styles.headerStyle}>User: {jwtDecode(token).user_name}</Text>),
               }}
             />
             <Stack.Screen
@@ -59,7 +59,7 @@ export default function App() {
               getComponent={() => require("./src/EditScore").default}
               options={{
                 headerRight: () => (
-                  <Text style={{marginHorizontal: '1%'}}>User: {jwtDecode(token).user_name}</Text>),
+                  <Text style={styles.headerStyle}>User: {jwtDecode(token).user_name}</Text>),
               }}
             />
           </Stack.Navigator>
@@ -68,3 +68,10 @@ export default function App() {
     </ContextToken.Provider>
   );
 }
+
+const styles = StyleSheet.create({
+  headerStyle: {
+    marginHorizontal: '1%',
+    fontSize: 15,
+  },
+});

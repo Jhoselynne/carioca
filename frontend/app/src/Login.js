@@ -40,16 +40,16 @@ function Login({ navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.spacebetween}>
-        <Text> User Name </Text>
+        <Text style={styles.textSize}> User Name </Text>
         <TextInput
-          style={styles.boxBorder}
+          style={styles.inputBox}
           onChangeText={setUserName}>
         </TextInput>
       </View>
       <View style={styles.spacebetween}>
-        <Text> Password </Text>
+        <Text style={styles.textSize}> Password </Text>
         <TextInput
-          style= {styles.boxBorder}
+          style= {styles.inputBox}
           secureTextEntry={true}
           onChangeText={setPassword}>
         </TextInput>
@@ -65,30 +65,33 @@ function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    ...Platform.select({
-      ios: {
-        backgroundColor: 'pink'
-      },
-      android: {
-        backgroundColor: 'lightgrey'
-      },
-      default: {
-        backgroundColor: 'blue'
-      },
-    }),
-
     // backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-  },
 
+    ...Platform.select({
+      ios: {
+        backgroundColor: '#e2e2e2'
+      },
+      android: {
+        backgroundColor: '#ffeff3'
+      },
+      default: {
+        backgroundColor: '#fff'
+      },
+    }),
+  },
   spacebetween: {
     paddingVertical: 20,
   },
-  boxBorder: {
+  inputBox: {
     borderWidth: 1,
     borderRadius: 2,
+    fontSize: 16,
+    backgroundColor: '#fff',
+  },
+  textSize: {
+    fontSize: 18,
   }
 });
 
