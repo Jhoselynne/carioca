@@ -85,10 +85,10 @@ function EditScore({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>**************</Text>
-      <Text> {jwtDecode(token).user_name}'s </Text>
-      <Text> Score </Text>
-      <Text>**************</Text>
+      <Text style={styles.textSize}>*******************</Text>
+      <Text style={[styles.textSize, styles.scoreStyle]}> {jwtDecode(token).user_name}'s </Text>
+      <Text style={[styles.textSize, styles.scoreStyle]}> Score </Text>
+      <Text style={styles.textSize}>*******************</Text>
       <View style={styles.spacebetween}>
         <FlatList
           style={styles.disableGrow}
@@ -96,10 +96,10 @@ function EditScore({ route, navigation }) {
           keyExtractor={item => item.name}
           renderItem={({item, index}) => (
           <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
-            <Text>{item.name}</Text>
+            <Text style={styles.textSize}>{item.name}</Text>
             <View style={{flexDirection: 'row', marginLeft: 5}}>
               <TextInput
-                style= {styles.inputBox}
+                style= {[styles.inputBox, styles.textSize]}
                 keyboardType={'numeric'}
                 placeholder="0"
                 value={points[index].toString()}
@@ -144,9 +144,11 @@ function EditScore({ route, navigation }) {
     spacebetween: {
       paddingVertical: 20,
     },
-    headerSize: {
-        fontSize: 20,
-        fontWeight: 'bold',
+    textSize: {
+    fontSize: 18,
+    },
+    scoreStyle: {
+      fontWeight: 'bold',
     },
     inputBox: {
       borderWidth: 1,

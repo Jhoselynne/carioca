@@ -67,9 +67,10 @@ function Round({ navigation }) {
       <Text style={styles.headerSize}>On going round:</Text>
       <Text style={styles.textSize}>{roundName}</Text>
       <View style={styles.marginTop}>
-        <Text style={[styles.textSize, styles.scoreStyle]}>SCOREBOARD</Text>
+        <Text style={styles.textSize}>*******************</Text>
       </View>
-      <Text style={[styles.textSize, styles.scoreStyle]}>*******************</Text>
+      <Text style={[styles.textSize, styles.scoreStyle]}>SCOREBOARD</Text>
+      <Text style={styles.textSize}>*******************</Text>
       <FlatList
         style={styles.disableGrow}
         data={playerInfo}
