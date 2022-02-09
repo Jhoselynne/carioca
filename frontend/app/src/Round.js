@@ -3,14 +3,17 @@ import {StyleSheet, View, Text, Button, FlatList} from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
 function Round({ navigation }) {
+  // Hooks with context
   const {token} = useContext(ContextToken);
   const {gameId} = useContext(ContextGameId);
 
+  // Hooks
   const [playerInfo, setPlayerInfo] = useState([]);
   const [roundId, setRoundId] = useState();
   const [roundName, setRoundName] = useState("");
   const [rendered, setRendered] = useState(Date.now());
 
+  // Gets score
   useEffect(() => {
     fetch('https://illanes.com/carioca/api/public/score/game/'.concat(gameId), {
       method: 'GET',
@@ -72,7 +75,7 @@ function Round({ navigation }) {
         data={playerInfo}
         keyExtractor={item => item.userName}
         renderItem={({item, index}) => (
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10}}>
+        <View style={styles.userAndPoints}>
           <Text style={styles.textSize}>{item.userName}</Text>
           <View style={{flexDirection: 'row', marginLeft: 5}}>
             <Text style={styles.textSize}> {item.sum} p</Text>
@@ -109,7 +112,11 @@ const styles = StyleSheet.create({
   },
   scoreStyle: {
     fontWeight: 'bold',
-    // fontSize: 18,
+  },
+  userAndPoints: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
   }
 });
 
