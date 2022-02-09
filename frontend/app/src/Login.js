@@ -4,10 +4,12 @@ import { ContextToken } from "../App";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login({ navigation }) {
+  // Hooks
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const {token, setToken} = useContext(ContextToken);
 
+  // Function that gets and sets token
   const getToken = () => {
     fetch('https://illanes.com/carioca/api/public/login', {
       method: 'POST',
@@ -18,6 +20,7 @@ function Login({ navigation }) {
       body: JSON.stringify({'username': userName, 'userpassword': password})
     })
     .then((response) => {
+      // status 200 = OK
       if (response.status !== 200) {
         throw new Error(response.status);
       }
@@ -31,6 +34,7 @@ function Login({ navigation }) {
     });
   }
 
+  // First render token = undifined = false
   useEffect(() => {
     if (token) {
       navigation.navigate('GameID');

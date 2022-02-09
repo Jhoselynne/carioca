@@ -3,10 +3,12 @@ import { Button, Text, StyleSheet, TextInput, View } from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
 function GameID({ navigation }) {
+  // Hooks
   const { token } = useContext(ContextToken);
   const { setGameId } = useContext(ContextGameId);
   const [gameIdValue, setGameIdValue] = useState();
 
+  // Function that checks if game exist
   const getGameId = () => {
     fetch('https://illanes.com/carioca/api/public/game/'.concat(gameIdValue), {
       method: 'Get',
@@ -16,6 +18,7 @@ function GameID({ navigation }) {
       }),
     })
     .then((response) => {
+      // status 200 = OK
       if (response.status !== 200) {
         throw new Error(response.status);
       }

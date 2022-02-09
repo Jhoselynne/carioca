@@ -4,7 +4,7 @@ import {StyleSheet, View, Text, Button, FlatList, TextInput} from "react-native"
 import { ContextGameId, ContextToken } from "../App";
 
 function EditScore({ route, navigation }) {
-
+  // Hooks
   const {token} = useContext(ContextToken);
   const {gameId} = useContext(ContextGameId);
 
@@ -44,10 +44,6 @@ function EditScore({ route, navigation }) {
         // Fill onlyPoints list with the user's points
         for (let index = 0; index < user.points.length; index++) {
           onlyPoints[index] = user.points[index].points;
-          //onlyPoints[user.points[index].roundId - 1] = user.points[index].points;
-          // onlyPoints[user.points[0].roundId - 1] = user.points[0].points;
-          // onlyPoints[8 - 1] = 10;
-          // onlyPoints[7] = 10;
         }
         console.log(onlyPoints);
         setPoints(onlyPoints);
