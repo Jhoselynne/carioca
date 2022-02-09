@@ -4,12 +4,12 @@ import { ContextToken } from "../App";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login({ navigation }) {
-  // Hooks
-  const [userName, setUserName] = useState('');
-  const [password, setPassword] = useState('');
   const {token, setToken} = useContext(ContextToken);
 
-  // Function that gets and sets token
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  // Function that gets and sets token through 'POST' method to the API
   const getToken = () => {
     fetch('https://illanes.com/carioca/api/public/login', {
       method: 'POST',

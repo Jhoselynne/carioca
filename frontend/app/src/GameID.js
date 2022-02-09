@@ -3,12 +3,13 @@ import { Button, Text, StyleSheet, TextInput, View } from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
 function GameID({ navigation }) {
-  // Hooks
   const { token } = useContext(ContextToken);
   const { setGameId } = useContext(ContextGameId);
+
   const [gameIdValue, setGameIdValue] = useState();
 
-  // Function that checks if game exist
+  /* Function that checks if game exist.
+  If respons status = OK => set GameId then navigat to Round-page */
   const getGameId = () => {
     fetch('https://illanes.com/carioca/api/public/game/'.concat(gameIdValue), {
       method: 'Get',

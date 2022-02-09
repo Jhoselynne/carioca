@@ -11,7 +11,6 @@ export const ContextGameId = createContext();
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  // Hooks
   const [token, setToken] = useState();
   const [gameId, setGameId] = useState();
 

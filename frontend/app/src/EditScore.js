@@ -4,14 +4,13 @@ import {StyleSheet, View, Text, Button, FlatList, TextInput} from "react-native"
 import { ContextGameId, ContextToken } from "../App";
 
 function EditScore({ route, navigation }) {
-  // Hooks
   const {token} = useContext(ContextToken);
   const {gameId} = useContext(ContextGameId);
 
-  // Hooks
   const [rounds, setRounds] = useState([]);
   const [points, setPoints] = useState(["","","","","","","",""]);
 
+  // Gets all rounds
   useEffect(() => {
     fetch('https://illanes.com/carioca/api/public/round', {
       method: 'GET',
@@ -52,7 +51,7 @@ function EditScore({ route, navigation }) {
     .catch((e) => console.log(e));
   }, [])
 
-  // Send points to backend
+  // Send updated points to backend through 'PUT' method
   const putPoints = () => {
     // Example of object we want to build
     // obj = {"1": 10, "2": 35, "3": 0, "4": 85, "5": 100, "6": 0, "7": 95, "8": 70}

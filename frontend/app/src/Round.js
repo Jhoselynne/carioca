@@ -3,17 +3,15 @@ import {StyleSheet, View, Text, Button, FlatList} from "react-native";
 import { ContextGameId, ContextToken } from "../App";
 
 function Round({ navigation }) {
-  // Hooks with context
   const {token} = useContext(ContextToken);
   const {gameId} = useContext(ContextGameId);
 
-  // Hooks
   const [playerInfo, setPlayerInfo] = useState([]);
   const [roundId, setRoundId] = useState();
   const [roundName, setRoundName] = useState("");
   const [rendered, setRendered] = useState(Date.now());
 
-  // Gets score
+  // Gets score for all users and the ongoing roundId
   useEffect(() => {
     fetch('https://illanes.com/carioca/api/public/score/game/'.concat(gameId), {
       method: 'GET',
@@ -44,7 +42,7 @@ function Round({ navigation }) {
     .catch((e) => console.log(e));
   }, [rendered])
 
-  // Fetch round name
+  // Fetch round name through roundId
   useEffect(() => {
     if (roundId) {
       fetch('https://illanes.com/carioca/api/public/round/'.concat(roundId), {
