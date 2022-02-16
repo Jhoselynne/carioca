@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, Text, Button, TextInput, Platform } from "react-native";
 import { ContextToken } from "../App";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login({ navigation }) {
   const {token, setToken} = useContext(ContextToken);
@@ -34,8 +34,33 @@ function Login({ navigation }) {
     });
   }
 
+  // Save Object
+  const storeData = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("@loggedIn_Key", jsonValue);
+      console.log(JSON.stringify(value));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Load Object
+  const getData = async () => {
+    try {
+        const jsonValue = await AsyncStorage.getItem('@loggedIn_Key');
+        console.log(JSON.parse(jsonValue));
+        return jsonValue != null ? setToken(JSON.parse(jsonValue)) : null;
+    } catch(e) {
+        console.log(e);
+    }
+  };
+
   // First render token = undifined = false
   useEffect(() => {
+    getData();
+    storeData(token);
+    console.log(token);
     if (token) {
       navigation.navigate('GameID');
     }
@@ -59,7 +84,7 @@ function Login({ navigation }) {
         </TextInput>
       </View>
       <Button
-        title="Enter"
+        title="Login"
         onPress={getToken}
       />
     </View>
