@@ -1,0 +1,95 @@
+@host = http://localhost:8000
+# @host = https://illanes.com/carioca/api/public
+@x-api-key = <TheApiKey>
+@authorization = Bearer <TheToken>
+
+###
+
+# @name version
+GET {{host}}/version HTTP/1.1
+
+###
+
+# @name endpoint
+GET {{host}}/endpoint HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+###
+
+# @name token
+GET {{host}}/token HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+###
+
+# @name user
+GET {{host}}/user HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+###
+
+# @name user_userId
+# @prompt userId The user id
+GET {{host}}/user/{{userId}} HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+###
+
+# @name round
+GET {{host}}/round HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+###
+
+# @name round_roundId
+# @prompt roundId The round id [0-8]
+GET {{host}}/round/{{roundId}} HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+###
+
+# @name game_gameId
+# @prompt gameId The game id
+GET {{host}}/game/{{gameId}} HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+###
+
+# @name score_gameId
+# @prompt gameId The game id
+GET {{host}}/score/game/{{gameId}} HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+###
+
+PUT {{host}}/score/game/2 HTTP/1.1
+x-api-key: {{x-api-key}}
+Authorization: {{authorization}}
+
+{
+    "1": 10,
+    "3": 30,
+    "2": 120,
+    "9": 95
+}
+
+###
+
+# @prompt username
+# @prompt userpassword
+POST {{host}}/login HTTP/1.1
+x-api-key: {{x-api-key}}
+content-type: application/json
+
+{
+    "username": "{{username}}",
+    "userpassword": "{{userpassword}}"
+}
