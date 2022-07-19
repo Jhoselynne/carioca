@@ -4,63 +4,97 @@ import { ContextToken } from "../App";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function Login({ navigation }) {
+  let counter = 0;
+  const debugEnabled = true;
   const {token, setToken} = useContext(ContextToken);
 
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
+  const debug = (message) => {
+    if(debugEnabled) {
+      counter++;
+      console.log(counter + ": " + message);
+    }
+  }
+
   // Function that gets and sets token through 'POST' method to the API
   const getToken = () => {
-    fetch('https://illanes.com/carioca/api/public/login', {
-      method: 'POST',
-      headers: new Headers({
-        'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
-        'content-type': 'application/json'
-      }),
-      body: JSON.stringify({'username': userName, 'userpassword': password})
-    })
-    .then((response) => {
-      // status 200 = OK
-      if (response.status !== 200) {
-        throw new Error(response.status);
-      }
-      return response.json()
-    })
-    .then((json) => {
-      setToken(json.id_token);
-    })
-    .catch((e) => {
-      alert("Incorrect username or password!");
-    });
+    debug("********** LOGIN - GET_TOKEN **********: " . token);
+    if(!token){
+      debug("********** LOGIN - GET_TOKEN **********: Fetching new token from server");
+      fetch('https://illanes.com/carioca/api/public/login', {
+        method: 'POST',
+        headers: new Headers({
+          'X-Api-Key': '0c9bac13f5734c6ea1264643d6f60a16',
+          'content-type': 'application/json'
+        }),
+        body: JSON.stringify({'username': userName, 'userpassword': password})
+      })
+      .then((response) => {
+        // status 200 = OK
+        if (response.status !== 200) {
+          throw new Error(response.status);
+        }
+        return response.json()
+      })
+      .then((json) => {
+        debug("********** LOGIN - GET_TOKEN: Setting The token in context variable **********");
+        setToken(json.id_token);
+      })
+      .catch((e) => {
+        alert("Incorrect username or password!");
+      });
+    } else {
+      debug("********** LOGIN - GET_TOKEN **********: Token in context have already a value and therefore skipping fetch token from server");
+      navigation.navigate('GameID');
+    }
   }
 
   // Save Object
   const storeData = async (value) => {
+    debug("********** LOGIN - STORE_DATA **********");
     try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("@loggedIn_Key", jsonValue);
-      console.log(JSON.stringify(value));
+      let jsonValue = undefined;
+      if(value){
+        jsonValue = JSON.stringify(value);
+        await AsyncStorage.setItem("@loggedIn_Key", jsonValue);
+      }
+      debug("----- LOGIN - STORE_DATA ----- " + jsonValue);
     } catch (error) {
-      console.log(error);
+      debug("----- LOGIN - STORE_DATA - ERROR ----- " + error);
     }
   };
 
   // Load Object
   const getData = async () => {
+    debug("********** LOGIN - GET_DATA **********");
     try {
-        const jsonValue = await AsyncStorage.getItem('@loggedIn_Key');
-        console.log(JSON.parse(jsonValue));
-        return jsonValue != null ? setToken(JSON.parse(jsonValue)) : null;
+      let jsonValue = await AsyncStorage.getItem('@loggedIn_Key');
+      if(jsonValue == "undefined"){
+        jsonValue = null;
+      }
+      debug("----- LOGIN - GET_DATA ----- " + jsonValue);
+      if(jsonValue == null || jsonValue == undefined){
+        debug("########## LOGIN - GET DATA: jsonValue is null or undefined ##########");
+        return null;
+      } else {
+        debug("########## LOGIN - GET DATA: jsonValue have content ##########: ");
+        setToken(JSON.parse(jsonValue));
+        return jsonValue;
+      }
+      // return jsonValue != null ? setToken(JSON.parse(jsonValue)) : null;
     } catch(e) {
-        console.log(e);
+      debug("----- LOGIN - GET_DATA - ERROR ----- " + e);
     }
   };
 
-  // First render token = undifined = false
+  // First render token = undefined = false
   useEffect(() => {
+    debug("********** LOGIN - USE_EFFECT **********");
     getData();
     storeData(token);
-    console.log(token);
+    debug("----- LOGIN - USE_EFFECT ----- " + token);
     if (token) {
       navigation.navigate('GameID');
     }
